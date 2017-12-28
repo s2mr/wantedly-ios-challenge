@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WantedListViewController.swift
 //  wantedly-ios-challenge
 //
 //  Created by 下村一将 on 2017/12/29.
@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class WantedListViewController: UIViewController {
+	
+	var viewModel: WantedListViewModel!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
