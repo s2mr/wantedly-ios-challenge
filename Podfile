@@ -6,5 +6,6 @@ target 'wantedly-ios-challenge' do
   use_frameworks!
 
   # Pods for wantedly-ios-challenge
+  pod 'R.swift'
 
 end

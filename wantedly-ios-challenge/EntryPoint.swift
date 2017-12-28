@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import Rswift
 
 struct EntryPoint {
 	func main() -> UIViewController {
-		let view = UIStoryboard.init(name: "WantedListViewController", bundle: nil).instantiateInitialViewController() as! WantedListViewController
+		let view = R.storyboard.wantedListViewController.instantiateInitialViewController()!
 		view.viewModel = WantedListViewModelImpl()
 		
 		return view
