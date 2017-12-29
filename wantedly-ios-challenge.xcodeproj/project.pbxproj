@@ -11,6 +11,8 @@
 		6E15B8DF1FF54EE6001E8328 /* WantedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8DE1FF54EE6001E8328 /* WantedListViewModel.swift */; };
 		6E15B8E31FF55099001E8328 /* EntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8E21FF55099001E8328 /* EntryPoint.swift */; };
 		6E15B8E71FF553CE001E8328 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8E61FF553CE001E8328 /* R.generated.swift */; };
+		6E15B8EA1FF5FF1E001E8328 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8E91FF5FF1E001E8328 /* API.swift */; };
+		6E15B8EC1FF5FF47001E8328 /* WanAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8EB1FF5FF47001E8328 /* WanAPI.swift */; };
 		6E605FD61FF549710008B542 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E605FD51FF549710008B542 /* AppDelegate.swift */; };
 		6E605FD81FF549710008B542 /* WantedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E605FD71FF549710008B542 /* WantedListViewController.swift */; };
 		6E605FDB1FF549720008B542 /* WantedListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E605FD91FF549720008B542 /* WantedListViewController.storyboard */; };
@@ -22,6 +24,8 @@
 		6E15B8DE1FF54EE6001E8328 /* WantedListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListViewModel.swift; sourceTree = "<group>"; };
 		6E15B8E21FF55099001E8328 /* EntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPoint.swift; sourceTree = "<group>"; };
 		6E15B8E61FF553CE001E8328 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		6E15B8E91FF5FF1E001E8328 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		6E15B8EB1FF5FF47001E8328 /* WanAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanAPI.swift; sourceTree = "<group>"; };
 		6E605FD21FF549710008B542 /* wantedly-ios-challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "wantedly-ios-challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E605FD51FF549710008B542 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E605FD71FF549710008B542 /* WantedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				6E15B8E11FF54F1D001E8328 /* New Group */,
+				6E15B8E91FF5FF1E001E8328 /* API.swift */,
+				6E15B8EB1FF5FF47001E8328 /* WanAPI.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -268,11 +274,17 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-wantedly-ios-challenge/Pods-wantedly-ios-challenge-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -287,9 +299,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E605FD81FF549710008B542 /* WantedListViewController.swift in Sources */,
+				6E15B8EC1FF5FF47001E8328 /* WanAPI.swift in Sources */,
 				6E15B8DF1FF54EE6001E8328 /* WantedListViewModel.swift in Sources */,
 				6E15B8E71FF553CE001E8328 /* R.generated.swift in Sources */,
 				6E605FD61FF549710008B542 /* AppDelegate.swift in Sources */,
+				6E15B8EA1FF5FF1E001E8328 /* API.swift in Sources */,
 				6E15B8E31FF55099001E8328 /* EntryPoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

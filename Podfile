@@ -7,5 +7,8 @@ target 'wantedly-ios-challenge' do
 
   # Pods for wantedly-ios-challenge
   pod 'R.swift'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'Alamofire'
 
 end
