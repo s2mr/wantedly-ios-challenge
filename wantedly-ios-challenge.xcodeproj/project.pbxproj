@@ -102,7 +102,7 @@
 		6E15B8ED1FF60208001E8328 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				6E15B8F41FF6046D001E8328 /* ViewModel */,
+				6E15B8F41FF6046D001E8328 /* ModelModel */,
 				6E15B8E11FF54F1D001E8328 /* Request */,
 				6E15B8E01FF54F0E001E8328 /* Repository */,
 				6E15B8EB1FF5FF47001E8328 /* WanAPI.swift */,
@@ -111,12 +111,12 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		6E15B8F41FF6046D001E8328 /* ViewModel */ = {
+		6E15B8F41FF6046D001E8328 /* ModelModel */ = {
 			isa = PBXGroup;
 			children = (
 				6E15B8F21FF60454001E8328 /* WantedListModel.swift */,
 			);
-			path = ViewModel;
+			path = ModelModel;
 			sourceTree = "<group>";
 		};
 		6E605FC91FF549710008B542 = {

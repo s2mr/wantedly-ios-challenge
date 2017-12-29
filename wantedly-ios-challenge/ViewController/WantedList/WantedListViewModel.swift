@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol WantedListViewModel {
 	func fetchWantedList()
@@ -14,10 +15,20 @@ protocol WantedListViewModel {
 
 class WantedListViewModelImpl: WantedListViewModel {
 	let repository = WantedListRepositoryImpl()
+	let disposeBag = DisposeBag()
+	
 	func fetchWantedList() {
 		repository.findAll(query: "swift", page: 1)
 			.subscribe({ event in
-				print(event)
-		})
+				switch event {
+				case .next(let v):
+					print(v)
+				case .error(let e):
+					print(e)
+				case .completed:
+					print("completed")
+				}
+			})
+			.disposed(by: disposeBag)
 	}
 }

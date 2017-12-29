@@ -10,13 +10,16 @@ import Foundation
 import RxSwift
 
 protocol WantedListRepository {
-	func findAll(query: String, page: Int) -> Observable<WantedListModel>
+	func findAll(query: String, page: Int) -> Observable<WantedListAPIResult>
 }
 
 class WantedListRepositoryImpl: WantedListRepository {
 	let api = WanAPI()
 
-	func findAll(query: String, page: Int) -> Observable<WantedListModel> {
+	func findAll(query: String, page: Int) -> Observable<WantedListAPIResult> {
 		return api.send(req: WanAPI.WantedListRequest(q: query, page: page))
+//		return v.map {$0.model!}
+//		return api.send(req: WanAPI.WantedListRequest(q: query, page: page))
+//			.map { $0.model! }
 	}
 }

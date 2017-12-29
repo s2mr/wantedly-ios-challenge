@@ -17,7 +17,7 @@ extension WanAPI {
 }
 
 extension WanAPI.WantedListRequest: WanAPIRequest {
-	typealias Response = WantedListModel
+	typealias Response = WantedListAPIResult
 	
 	var path: String {
 		return "/projects"
