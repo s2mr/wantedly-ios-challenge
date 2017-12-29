@@ -10,15 +10,15 @@ import Foundation
 import RxSwift
 
 protocol WantedListViewModel {
-	func fetchWantedList()
+	func fetchWantedList(query: String, page: Int)
 }
 
 class WantedListViewModelImpl: WantedListViewModel {
 	let repository = WantedListRepositoryImpl()
 	let disposeBag = DisposeBag()
 	
-	func fetchWantedList() {
-		repository.findAll(query: "swift", page: 1)
+	func fetchWantedList(query: String, page: Int) {
+		repository.findAll(query: query, page: page)
 			.subscribe({ event in
 				switch event {
 				case .next(let v):

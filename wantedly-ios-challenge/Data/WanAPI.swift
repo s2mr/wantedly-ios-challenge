@@ -13,11 +13,7 @@ import Unbox
 
 class WanAPI {
 	let baseURL = "https://www.wantedly.com/api/v1"
-	let parameterEncoding: ParameterEncoding!
-	
-	init() {
-		self.parameterEncoding = URLEncoding.methodDependent
-	}
+	let parameterEncoding = URLEncoding.methodDependent
 	
 	func send<Req: WanAPIRequest>(req: Req) -> Observable<Req.Response> where Req.Response: Unboxable {
 		let url = baseURL.appending(req.path)

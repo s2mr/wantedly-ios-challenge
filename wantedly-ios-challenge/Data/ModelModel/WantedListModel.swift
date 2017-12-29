@@ -21,22 +21,36 @@ struct WantedListAPIResult: Unboxable {
 
 struct WantedListModel: Unboxable {
 	var title: String?
-	var publishedAt: Date?
 	var pageView: Int?
 	var location: String?
 	var locationSuffix: String?
 	var description: String?
 	var lookingFor: String?
 	var imageUrl: String?
+	var companyName: String?
+	var companyLogoUrl: String?
 	
 	init(unboxer: Unboxer) throws {
 		title = unboxer.unbox(key: "title")
+		pageView = unboxer.unbox(key: "page_view")
+		location = unboxer.unbox(key: "location")
+		locationSuffix = unboxer.unbox(key: "location_suffix")
+		description = unboxer.unbox(key: "description")
+		lookingFor = unboxer.unbox(key: "looking_for")
+		imageUrl = unboxer.unbox(keyPath: "image.i_320_131_x2")
+		companyName = unboxer.unbox(keyPath: "company.name")
+		companyLogoUrl = unboxer.unbox(keyPath: "company.avatar.s_50")
 	}
 }
 
 struct MetaDataModel: Unboxable {
 	var totalObjects: Int?
+	var perPage: Int?
+	var totalPages: Int?
+	
 	init(unboxer: Unboxer) throws {
 		totalObjects = unboxer.unbox(key: "total_objects")
+		perPage = unboxer.unbox(key: "per_page")
+		totalPages = unboxer.unbox(key: "total_pages")
 	}
 }

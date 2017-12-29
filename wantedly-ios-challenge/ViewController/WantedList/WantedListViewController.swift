@@ -13,7 +13,7 @@ class WantedListViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		viewModel.fetchWantedList()
+		viewModel.fetchWantedList(query: "swift", page: 1)
 	}
 
 	override func didReceiveMemoryWarning() {
