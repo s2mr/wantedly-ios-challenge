@@ -9,9 +9,15 @@
 import Foundation
 
 protocol WantedListViewModel {
-	
+	func fetchWantedList()
 }
 
 class WantedListViewModelImpl: WantedListViewModel {
-	
+	let repository = WantedListRepositoryImpl()
+	func fetchWantedList() {
+		repository.findAll(query: "swift", page: 1)
+			.subscribe({ event in
+				print(event)
+		})
+	}
 }
