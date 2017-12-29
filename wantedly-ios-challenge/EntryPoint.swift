@@ -13,7 +13,6 @@ struct EntryPoint {
 	func main() -> UIViewController {
 		let view = R.storyboard.wantedListViewController.instantiateInitialViewController()!
 		view.viewModel = WantedListViewModelImpl()
-		
 		return view
 	}
 }

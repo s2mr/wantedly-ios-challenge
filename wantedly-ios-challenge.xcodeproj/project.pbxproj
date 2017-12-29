@@ -143,6 +143,7 @@
 				6E605FD01FF549710008B542 /* Resources */,
 				CDC1587517C897580326F54B /* [CP] Embed Pods Frameworks */,
 				03E8625FC72AA3B0E4ECC51D /* [CP] Copy Pods Resources */,
+				6E15B8E81FF5F95C001E8328 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -228,6 +229,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT\"";
+		};
+		6E15B8E81FF5F95C001E8328 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		ACC05CEAAF4639057B29F7F0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
