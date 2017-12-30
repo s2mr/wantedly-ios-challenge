@@ -11,5 +11,6 @@ target 'wantedly-ios-challenge' do
   pod 'RxCocoa'
   pod 'Alamofire'
   pod 'Unbox'
+  pod 'AlamofireImage'
 
 end
