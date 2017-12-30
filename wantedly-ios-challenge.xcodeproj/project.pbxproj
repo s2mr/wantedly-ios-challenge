@@ -18,6 +18,8 @@
 		6E15B8F61FF606EE001E8328 /* WantedListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8F51FF606EE001E8328 /* WantedListRepository.swift */; };
 		6E15B8FC1FF696F4001E8328 /* WantedListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B8FA1FF696F4001E8328 /* WantedListCollectionViewCell.swift */; };
 		6E15B8FD1FF696F4001E8328 /* WantedListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E15B8FB1FF696F4001E8328 /* WantedListCollectionViewCell.xib */; };
+		6E15B9101FF7F8BB001E8328 /* WantedListCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B90E1FF7F8BB001E8328 /* WantedListCollectionViewHeader.swift */; };
+		6E15B9111FF7F8BB001E8328 /* WantedListCollectionViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E15B90F1FF7F8BB001E8328 /* WantedListCollectionViewHeader.xib */; };
 		6E605FD61FF549710008B542 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E605FD51FF549710008B542 /* AppDelegate.swift */; };
 		6E605FD81FF549710008B542 /* WantedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E605FD71FF549710008B542 /* WantedListViewController.swift */; };
 		6E605FDB1FF549720008B542 /* WantedListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E605FD91FF549720008B542 /* WantedListViewController.storyboard */; };
@@ -36,6 +38,8 @@
 		6E15B8F51FF606EE001E8328 /* WantedListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListRepository.swift; sourceTree = "<group>"; };
 		6E15B8FA1FF696F4001E8328 /* WantedListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListCollectionViewCell.swift; sourceTree = "<group>"; };
 		6E15B8FB1FF696F4001E8328 /* WantedListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantedListCollectionViewCell.xib; sourceTree = "<group>"; };
+		6E15B90E1FF7F8BB001E8328 /* WantedListCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListCollectionViewHeader.swift; sourceTree = "<group>"; };
+		6E15B90F1FF7F8BB001E8328 /* WantedListCollectionViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WantedListCollectionViewHeader.xib; sourceTree = "<group>"; };
 		6E605FD21FF549710008B542 /* wantedly-ios-challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "wantedly-ios-challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E605FD51FF549710008B542 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E605FD71FF549710008B542 /* WantedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +139,8 @@
 		6E15B8F91FF696C3001E8328 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				6E15B90E1FF7F8BB001E8328 /* WantedListCollectionViewHeader.swift */,
+				6E15B90F1FF7F8BB001E8328 /* WantedListCollectionViewHeader.xib */,
 				6E15B8FA1FF696F4001E8328 /* WantedListCollectionViewCell.swift */,
 				6E15B8FB1FF696F4001E8328 /* WantedListCollectionViewCell.xib */,
 			);
@@ -246,6 +252,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E15B9111FF7F8BB001E8328 /* WantedListCollectionViewHeader.xib in Resources */,
 				6E605FE01FF549720008B542 /* LaunchScreen.storyboard in Resources */,
 				6E605FDD1FF549720008B542 /* Assets.xcassets in Resources */,
 				6E15B8FD1FF696F4001E8328 /* WantedListCollectionViewCell.xib in Resources */,
@@ -352,6 +359,7 @@
 			files = (
 				6E605FD81FF549710008B542 /* WantedListViewController.swift in Sources */,
 				6E15B8FC1FF696F4001E8328 /* WantedListCollectionViewCell.swift in Sources */,
+				6E15B9101FF7F8BB001E8328 /* WantedListCollectionViewHeader.swift in Sources */,
 				6E15B8EC1FF5FF47001E8328 /* WanAPI.swift in Sources */,
 				6E15B8DF1FF54EE6001E8328 /* WantedListViewModel.swift in Sources */,
 				6E15B8F31FF60454001E8328 /* WantedListModel.swift in Sources */,

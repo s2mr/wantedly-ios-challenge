@@ -26,8 +26,13 @@ class WantedListViewController: UIViewController {
 	
 	func setupUI() {
 		self.title = "募集一覧"
+		
 		let nib = UINib(nibName: "WantedListCollectionViewCell", bundle: nil) //FIXME: use R.swift
 		collectionView.register(nib, forCellWithReuseIdentifier: "WantedListCollectionViewCell")
+		let nib1 = UINib(nibName: "WantedListCollectionViewHeader", bundle: nil)
+		collectionView.register(nib1, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "WantedListCollectionViewHeader")
+		
+		collectionView.keyboardDismissMode = .onDrag
 	}
 }
 
@@ -49,6 +54,14 @@ extension WantedListViewController: UICollectionViewDataSource {
 						description: item.description ?? "",
 						role: item.lookingFor ?? "")
 		return cell
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+		return CGSize(width: self.view.bounds.width, height: 50)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+		return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "WantedListCollectionViewHeader", for: indexPath)
 	}
 }
 
