@@ -19,10 +19,16 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
-		// Initialization code
+		titleLabel.lineBreakMode = .byWordWrapping
+		titleLabel.numberOfLines = 0
+		titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+		
+		descriptionLabel.lineBreakMode = .byTruncatingTail
+		descriptionLabel.numberOfLines = 2
 	}
 	
 	func updateCell(imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
+		var description = description
 		if let url = URL(string: imageUrl) {
 			imageView.af_setImage(withURL: url)
 		}
@@ -31,6 +37,9 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		}
 		companyNameLabel.text = companyName
 		titleLabel.text = title
+		while let range = description.range(of: "\r\n") {
+			description.replaceSubrange(range, with: "")
+		}
 		descriptionLabel.text = description
 		roleLabel.text = role
 	}

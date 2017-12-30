@@ -25,7 +25,7 @@ class WantedListViewController: UIViewController {
 	}
 	
 	func setupUI() {
-		let nib = UINib(nibName: "WantedListCollectionViewCell", bundle: nil)
+		let nib = UINib(nibName: "WantedListCollectionViewCell", bundle: nil) //FIXME: use R.swift
 		collectionView.register(nib, forCellWithReuseIdentifier: "WantedListCollectionViewCell")
 	}
 }
@@ -36,7 +36,7 @@ extension WantedListViewController: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let c = collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath) as? WantedListCollectionViewCell
+		let c = collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath) as? WantedListCollectionViewCell //FIXME: use R.swift
 		guard let cell = c else {
 			return collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath)
 		}

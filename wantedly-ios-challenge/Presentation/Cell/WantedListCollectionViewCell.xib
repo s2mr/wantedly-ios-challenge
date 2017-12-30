@@ -54,13 +54,13 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOs-KZ-bKx">
-                        <rect key="frame" x="8" y="178" width="34" height="21"/>
+                        <rect key="frame" x="8" y="178" width="267" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aca-b5-Tbc">
-                        <rect key="frame" x="8" y="207" width="88" height="21"/>
+                        <rect key="frame" x="8" y="207" width="267" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -83,9 +83,11 @@
                 <constraint firstItem="qOK-0r-imE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Psb-96-Vvb"/>
                 <constraint firstItem="voJ-PS-wz9" firstAttribute="top" secondItem="aca-b5-Tbc" secondAttribute="bottom" constant="8" id="QL3-Bq-drh"/>
                 <constraint firstItem="Dvo-0B-jcD" firstAttribute="trailing" secondItem="qOK-0r-imE" secondAttribute="trailing" id="YZ0-Bp-tSo"/>
+                <constraint firstAttribute="trailing" secondItem="aca-b5-Tbc" secondAttribute="trailing" constant="8" id="fze-Hd-c6J"/>
                 <constraint firstItem="aca-b5-Tbc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="qaV-lA-7g1"/>
                 <constraint firstItem="voJ-PS-wz9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="qqb-D5-OSg"/>
                 <constraint firstItem="qOK-0r-imE" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rh7-OB-yWu"/>
+                <constraint firstAttribute="trailing" secondItem="MOs-KZ-bKx" secondAttribute="trailing" constant="8" id="xGH-p1-517"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="283" height="277"/>
