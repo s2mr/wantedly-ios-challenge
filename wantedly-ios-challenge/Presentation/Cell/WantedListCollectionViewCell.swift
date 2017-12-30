@@ -19,12 +19,24 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
+		contentView.backgroundColor = UIColor.white
+		
 		titleLabel.lineBreakMode = .byWordWrapping
 		titleLabel.numberOfLines = 0
 		titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
 		
+		descriptionLabel.font = UIFont.systemFont(ofSize: 13)
 		descriptionLabel.lineBreakMode = .byTruncatingTail
 		descriptionLabel.numberOfLines = 2
+		
+//		let frame = roleLabel.frame // TODO: extend frame width
+//		roleLabel.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width+15, height: frame.height)
+		roleLabel.font = UIFont.systemFont(ofSize: 15)
+		roleLabel.layer.cornerRadius = 3
+		roleLabel.layer.borderWidth = 1
+		roleLabel.layer.borderColor = UIColor.blue.cgColor
+		roleLabel.layer.backgroundColor = UIColor.blue.cgColor
+		roleLabel.textColor = UIColor.white
 	}
 	
 	func updateCell(imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
@@ -42,5 +54,6 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		}
 		descriptionLabel.text = description
 		roleLabel.text = role
+		roleLabel.sizeToFit()
 	}
 }
