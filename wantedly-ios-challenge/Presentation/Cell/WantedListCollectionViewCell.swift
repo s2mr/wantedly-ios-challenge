@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class WantedListCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var imageView: UIImageView!
@@ -22,6 +23,12 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	}
 	
 	func updateCell(imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
+		if let url = URL(string: imageUrl) {
+			imageView.af_setImage(withURL: url)
+		}
+		if let url = URL(string: companyLogoUrl) {
+			companyLogoView.af_setImage(withURL: url)
+		}
 		companyNameLabel.text = companyName
 		titleLabel.text = title
 		descriptionLabel.text = description

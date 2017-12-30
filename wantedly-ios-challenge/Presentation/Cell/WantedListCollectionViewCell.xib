@@ -14,39 +14,39 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WantedListCollectionViewCell" id="gTV-IL-0wX" customClass="WantedListCollectionViewCell" customModule="wantedly_ios_challenge" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="283" height="245"/>
+            <rect key="frame" x="0.0" y="0.0" width="283" height="277"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="283" height="245"/>
+                <rect key="frame" x="0.0" y="0.0" width="283" height="277"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qOK-0r-imE">
-                        <rect key="frame" x="0.0" y="0.0" width="283" height="130"/>
+                        <rect key="frame" x="0.0" y="0.0" width="283" height="170"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="130" id="PtL-Cw-fzj"/>
+                            <constraint firstAttribute="height" constant="170" id="PtL-Cw-fzj"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dvo-0B-jcD">
-                        <rect key="frame" x="0.0" y="89" width="283" height="41"/>
+                        <rect key="frame" x="0.0" y="140" width="283" height="30"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BUf-5e-QLO">
-                                <rect key="frame" x="8" y="9" width="23" height="23"/>
+                                <rect key="frame" x="8" y="3.5" width="23" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="Z6w-Dp-QW6"/>
                                     <constraint firstAttribute="width" secondItem="BUf-5e-QLO" secondAttribute="height" multiplier="1:1" id="eWL-nQ-Kpv"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CompanyName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rdu-PH-QyO">
-                                <rect key="frame" x="39" y="10" width="236" height="21"/>
+                                <rect key="frame" x="39" y="4.5" width="236" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.27231378420547941" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="BUf-5e-QLO" firstAttribute="centerY" secondItem="Dvo-0B-jcD" secondAttribute="centerY" id="29L-PU-vvd"/>
-                            <constraint firstAttribute="height" constant="41" id="764-41-4ee"/>
+                            <constraint firstAttribute="height" constant="30" id="764-41-4ee"/>
                             <constraint firstAttribute="trailing" secondItem="Rdu-PH-QyO" secondAttribute="trailing" constant="8" id="DfW-6N-lEZ"/>
                             <constraint firstItem="Rdu-PH-QyO" firstAttribute="centerY" secondItem="Dvo-0B-jcD" secondAttribute="centerY" id="IfJ-m7-ubK"/>
                             <constraint firstItem="Rdu-PH-QyO" firstAttribute="leading" secondItem="BUf-5e-QLO" secondAttribute="trailing" constant="8" id="gpL-9v-6Ue"/>
@@ -54,19 +54,19 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOs-KZ-bKx">
-                        <rect key="frame" x="8" y="138" width="34" height="21"/>
+                        <rect key="frame" x="8" y="178" width="34" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aca-b5-Tbc">
-                        <rect key="frame" x="8" y="167" width="88" height="21"/>
+                        <rect key="frame" x="8" y="207" width="88" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Role" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="voJ-PS-wz9">
-                        <rect key="frame" x="8" y="196" width="34" height="21"/>
+                        <rect key="frame" x="8" y="236" width="34" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -88,7 +88,7 @@
                 <constraint firstItem="qOK-0r-imE" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rh7-OB-yWu"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="283" height="245"/>
+            <size key="customSize" width="283" height="277"/>
             <connections>
                 <outlet property="companyLogoView" destination="BUf-5e-QLO" id="URS-8z-xYM"/>
                 <outlet property="companyNameLabel" destination="Rdu-PH-QyO" id="sfE-ef-Tyw"/>
@@ -97,7 +97,7 @@
                 <outlet property="roleLabel" destination="voJ-PS-wz9" id="zRI-hD-DvE"/>
                 <outlet property="titleLabel" destination="MOs-KZ-bKx" id="hTS-QV-3qg"/>
             </connections>
-            <point key="canvasLocation" x="150.5" y="202.5"/>
+            <point key="canvasLocation" x="150.5" y="218.5"/>
         </collectionViewCell>
     </objects>
 </document>
