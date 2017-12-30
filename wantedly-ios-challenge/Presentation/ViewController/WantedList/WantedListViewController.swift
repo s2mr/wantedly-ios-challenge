@@ -25,6 +25,7 @@ class WantedListViewController: UIViewController {
 	}
 	
 	func setupUI() {
+		self.title = "募集一覧"
 		let nib = UINib(nibName: "WantedListCollectionViewCell", bundle: nil) //FIXME: use R.swift
 		collectionView.register(nib, forCellWithReuseIdentifier: "WantedListCollectionViewCell")
 	}
@@ -54,5 +55,9 @@ extension WantedListViewController: UICollectionViewDataSource {
 extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: self.view.bounds.width - 16, height: 300)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+		return UIEdgeInsets(top: 8.0, left: 0, bottom: 0, right: 0)
 	}
 }
