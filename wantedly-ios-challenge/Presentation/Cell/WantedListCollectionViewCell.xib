@@ -90,7 +90,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="283" height="245"/>
             <connections>
-                <outlet property="companyImageView" destination="BUf-5e-QLO" id="wY5-Ja-xqO"/>
+                <outlet property="companyLogoView" destination="BUf-5e-QLO" id="URS-8z-xYM"/>
                 <outlet property="companyNameLabel" destination="Rdu-PH-QyO" id="sfE-ef-Tyw"/>
                 <outlet property="descriptionLabel" destination="aca-b5-Tbc" id="0Rd-Gs-74E"/>
                 <outlet property="imageView" destination="qOK-0r-imE" id="Wit-XN-6AW"/>

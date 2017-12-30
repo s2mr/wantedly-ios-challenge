@@ -42,7 +42,7 @@ extension WantedListViewController: UICollectionViewDataSource {
 		}
 		let item = viewModel.wantedListItems[indexPath.row]
 		cell.updateCell(imageUrl: item.imageUrl ?? "",
-						companyImageUrl: item.companyLogoUrl ?? "",
+						companyLogoUrl: item.companyLogoUrl ?? "",
 						companyName: item.companyName ?? "",
 						title: item.title ?? "",
 						description: item.description ?? "",

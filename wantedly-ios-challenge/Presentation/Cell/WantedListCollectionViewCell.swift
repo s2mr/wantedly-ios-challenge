@@ -10,7 +10,7 @@ import UIKit
 
 class WantedListCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var imageView: UIImageView!
-	@IBOutlet weak var companyImageView: UIImageView!
+	@IBOutlet weak var companyLogoView: UIImageView!
 	@IBOutlet weak var companyNameLabel: UILabel!
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var descriptionLabel: UILabel!
@@ -21,7 +21,7 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		// Initialization code
 	}
 	
-	func updateCell(imageUrl: String, companyImageUrl: String, companyName: String, title: String, description: String, role: String) {
+	func updateCell(imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
 		companyNameLabel.text = companyName
 		titleLabel.text = title
 		descriptionLabel.text = description
