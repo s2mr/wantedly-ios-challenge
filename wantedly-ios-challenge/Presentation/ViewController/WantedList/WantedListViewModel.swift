@@ -31,6 +31,7 @@ class WantedListViewModelImpl: WantedListViewModel {
 				switch event {
 				case .next(let v):
 					if let models = v.model {
+//						models.forEach { self.wantedListItems.append($0) }
 						self.wantedListItems = models
 						self.vc.collectionView.reloadData()
 					}

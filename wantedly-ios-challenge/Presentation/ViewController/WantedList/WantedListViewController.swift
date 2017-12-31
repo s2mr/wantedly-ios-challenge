@@ -69,6 +69,12 @@ extension WantedListViewController: UICollectionViewDataSource {
 		return viewModel.wantedListItems.count
 	}
 	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		UIView.animate(withDuration: 0.4, animations: {
+			cell.contentView.alpha = 1
+		})
+	}
+	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let c = collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath) as? WantedListCollectionViewCell //FIXME: use R.swift
 		guard let cell = c else {
@@ -81,13 +87,14 @@ extension WantedListViewController: UICollectionViewDataSource {
 						title: item.title ?? "",
 						description: item.description ?? "",
 						role: item.lookingFor ?? "")
+		cell.contentView.alpha = 0
 		return cell
 	}
 }
 
 extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: self.view.bounds.width - 16, height: 300)
+		return CGSize(width: self.view.bounds.width, height: 300)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
