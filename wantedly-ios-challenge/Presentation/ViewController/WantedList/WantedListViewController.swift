@@ -81,7 +81,8 @@ extension WantedListViewController: UICollectionViewDataSource {
 			return collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath)
 		}
 		let item = viewModel.wantedListItems[indexPath.row]
-		cell.updateCell(imageUrl: item.imageUrl ?? "",
+		cell.updateCell(viewCount: item.pageView ?? 0,
+						imageUrl: item.imageUrl ?? "",
 						companyLogoUrl: item.companyLogoUrl ?? "",
 						companyName: item.companyName ?? "",
 						title: item.title ?? "",

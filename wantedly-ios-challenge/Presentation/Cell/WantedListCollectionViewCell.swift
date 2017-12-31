@@ -10,6 +10,7 @@ import UIKit
 import AlamofireImage
 
 class WantedListCollectionViewCell: UICollectionViewCell {
+	@IBOutlet weak var viewCountLabel: UILabel!
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var companyLogoView: UIImageView!
 	@IBOutlet weak var companyNameLabel: UILabel!
@@ -19,6 +20,13 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
+		let goldColor = UIColor(red: 183/255, green: 163/255, blue: 92/255, alpha: 1)
+		viewCountLabel.layer.borderColor = goldColor.cgColor
+		viewCountLabel.layer.backgroundColor = goldColor.cgColor
+		viewCountLabel.layer.cornerRadius = 3
+		viewCountLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
+		viewCountLabel.textColor = UIColor.white
+		
 		imageView.contentMode = .scaleAspectFill
 		imageView.clipsToBounds = true
 		companyLogoView.contentMode = .scaleAspectFill
@@ -44,8 +52,9 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		roleLabel.textColor = UIColor.white
 	}
 	
-	func updateCell(imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
+	func updateCell(viewCount: Int, imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
 		var description = description
+		viewCountLabel.text = "\(viewCount) View"
 		imageView.image = UIImage(named: "placeholder")
 		if let url = URL(string: imageUrl) {
 			imageView.af_setImage(withURL: url)
