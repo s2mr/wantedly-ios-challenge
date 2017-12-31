@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class WantedListViewController: UIViewController {
 	var viewModel: WantedListViewModel!
+	let disposeBag = DisposeBag()
 	
+	@IBOutlet weak var searchBar: UISearchBar!
 	@IBOutlet weak var collectionView: UICollectionView!
+	
+	private var incrementalText: Driver<String> {
+		return rx
+			.methodInvoked(#selector(self.searchBar(_:shouldChangeTextIn:replacementText:)))
+			.debounce(0.2, scheduler: MainScheduler.instance)
+			.flatMap { [weak self] _ -> Observable<String> in Observable.just(self?.searchBar.text ?? "") }
+			.distinctUntilChanged()
+			.asDriver(onErrorJustReturn: "")
+	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
+		bind()
 		viewModel.fetchWantedList(query: "", page: 1)
 	}
 
@@ -29,10 +43,24 @@ class WantedListViewController: UIViewController {
 		
 		let nib = UINib(nibName: "WantedListCollectionViewCell", bundle: nil) //FIXME: use R.swift
 		collectionView.register(nib, forCellWithReuseIdentifier: "WantedListCollectionViewCell")
-		let nib1 = UINib(nibName: "WantedListCollectionViewHeader", bundle: nil)
-		collectionView.register(nib1, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "WantedListCollectionViewHeader")
 		
 		collectionView.keyboardDismissMode = .onDrag
+	}
+	
+	func bind() {
+		incrementalText
+			.asObservable()
+			.subscribe(onNext: {
+				self.viewModel.fetchWantedList(query: $0, page: 1)
+			},
+					   onError: nil, onCompleted: nil, onDisposed: nil)
+			.disposed(by: disposeBag)
+	}
+}
+
+extension WantedListViewController: UISearchBarDelegate {
+	func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		return true
 	}
 }
 
@@ -54,14 +82,6 @@ extension WantedListViewController: UICollectionViewDataSource {
 						description: item.description ?? "",
 						role: item.lookingFor ?? "")
 		return cell
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-		return CGSize(width: self.view.bounds.width, height: 50)
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-		return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "WantedListCollectionViewHeader", for: indexPath)
 	}
 }
 
