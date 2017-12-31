@@ -19,6 +19,11 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
+		imageView.contentMode = .scaleAspectFill
+		imageView.clipsToBounds = true
+		companyLogoView.contentMode = .scaleAspectFill
+		companyLogoView.clipsToBounds = true
+		
 		contentView.backgroundColor = UIColor.white
 		
 		titleLabel.lineBreakMode = .byWordWrapping
@@ -41,9 +46,11 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	func updateCell(imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
 		var description = description
+		imageView.image = UIImage(named: "placeholder")
 		if let url = URL(string: imageUrl) {
 			imageView.af_setImage(withURL: url)
 		}
+		companyLogoView.image = UIImage(named: "placeholder")
 		if let url = URL(string: companyLogoUrl) {
 			companyLogoView.af_setImage(withURL: url)
 		}
