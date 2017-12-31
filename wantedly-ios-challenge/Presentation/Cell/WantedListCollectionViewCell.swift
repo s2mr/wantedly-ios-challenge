@@ -8,6 +8,7 @@
 
 import UIKit
 import AlamofireImage
+import FontAwesome_swift
 
 class WantedListCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var viewCountLabel: UILabel!
@@ -54,7 +55,11 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	func updateCell(viewCount: Int, imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
 		var description = description
+		
 		viewCountLabel.text = "\(viewCount) View"
+		let _starLabel = starLabel(viewCount: viewCount)
+		viewCountLabel.addSubview(_starLabel)
+		
 		imageView.image = UIImage(named: "placeholder")
 		if let url = URL(string: imageUrl) {
 			imageView.af_setImage(withURL: url)
@@ -71,5 +76,30 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		descriptionLabel.text = description
 		roleLabel.text = role
 		roleLabel.sizeToFit()
+	}
+	
+	func starLabel(viewCount: Int) -> UILabel {
+		let star = String.fontAwesomeIcon(name: .star)
+		let starLabel = UILabel(frame: CGRect(x: -10, y: -15, width: 150, height: 20))
+		starLabel.font = UIFont.fontAwesome(ofSize: 14)
+		starLabel.textColor = UIColor.black
+		switch viewCount {
+		case 0..<1000:
+			break
+		case ..<2500:
+			starLabel.text = "\(star)"
+		case ..<5000:
+			starLabel.text = "\(star)\(star)"
+		default:
+			starLabel.text = "\(star)\(star)\(star)"
+		}
+		return starLabel
+	}
+	
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		for v in viewCountLabel.subviews {
+			v.removeFromSuperview()
+		}
 	}
 }
