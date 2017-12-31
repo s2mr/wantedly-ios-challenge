@@ -12,5 +12,6 @@ target 'wantedly-ios-challenge' do
   pod 'Alamofire'
   pod 'Unbox'
   pod 'AlamofireImage'
+  pod 'FontAwesome.swift'
 
 end
