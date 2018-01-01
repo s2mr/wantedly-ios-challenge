@@ -29,6 +29,21 @@ struct WantedListModel: Unboxable {
 	var imageUrl: String?
 	var companyName: String?
 	var companyLogoUrl: String?
+	var staffings: [Staffing]?
+	
+	struct Staffing: Unboxable {
+		var isLeader: Bool?
+		var name: String?
+		var facebookUid: String?
+		var description: String?
+		
+		init(unboxer: Unboxer) throws {
+			isLeader = unboxer.unbox(key: "is_leader")
+			name = unboxer.unbox(key: "name")
+			facebookUid = unboxer.unbox(key: "facebook_uid")
+			description = unboxer.unbox(key: "description")
+		}
+	}
 	
 	init(unboxer: Unboxer) throws {
 		title = unboxer.unbox(key: "title")
@@ -40,6 +55,7 @@ struct WantedListModel: Unboxable {
 		imageUrl = unboxer.unbox(keyPath: "image.i_320_131_x2")
 		companyName = unboxer.unbox(keyPath: "company.name")
 		companyLogoUrl = unboxer.unbox(keyPath: "company.avatar.s_50")
+		staffings = unboxer.unbox(key: "staffings")
 	}
 	init() {}
 }
