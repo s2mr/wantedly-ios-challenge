@@ -41,8 +41,8 @@ class WantedListViewController: UIViewController {
 	func setupUI() {
 		self.title = "募集一覧"
 		
-		let nib = UINib(nibName: "WantedListCollectionViewCell", bundle: nil) //FIXME: use R.swift
-		collectionView.register(nib, forCellWithReuseIdentifier: "WantedListCollectionViewCell")
+		let nib = R.nib.wantedListCollectionViewCell()
+		collectionView.register(nib, forCellWithReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier)
 		
 		collectionView.keyboardDismissMode = .onDrag
 	}
@@ -84,9 +84,9 @@ extension WantedListViewController: UICollectionViewDataSource {
 			viewModel.fetchWantedList(query: searchBar.text ?? "", shouldReset: false)
 		}
 		
-		let c = collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath) as? WantedListCollectionViewCell //FIXME: use R.swift
+		let c = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier, for: indexPath) as? WantedListCollectionViewCell
 		guard let cell = c else {
-			return collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath)
+			return collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier, for: indexPath)
 		}
 		let item = viewModel.wantedListItems[indexPath.row]
 		cell.updateCell(viewCount: item.pageView ?? 0,
@@ -98,6 +98,15 @@ extension WantedListViewController: UICollectionViewDataSource {
 						role: item.lookingFor ?? "")
 		cell.contentView.alpha = 0
 		return cell
+	}
+}
+
+extension WantedListViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let model = viewModel.wantedListItems[indexPath.row]
+		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
+		vc.viewModel = WantedDetailViewModelImpl(vc, model: model)
+		self.navigationController?.pushViewController(vc, animated: true)
 	}
 }
 
