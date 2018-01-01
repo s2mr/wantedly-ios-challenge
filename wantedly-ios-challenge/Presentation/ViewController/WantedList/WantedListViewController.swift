@@ -45,6 +45,10 @@ class WantedListViewController: UIViewController {
 		collectionView.register(nib, forCellWithReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier)
 		
 		collectionView.keyboardDismissMode = .onDrag
+		
+		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
+			registerForPreviewing(with: self, sourceView: view)
+		}
 	}
 	
 	func bind() {
@@ -97,6 +101,7 @@ extension WantedListViewController: UICollectionViewDataSource {
 						description: item.description ?? "",
 						role: item.lookingFor ?? "")
 		cell.contentView.alpha = 0
+		
 		return cell
 	}
 }
@@ -117,5 +122,24 @@ extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 		return UIEdgeInsets(top: 8.0, left: 0, bottom: 0, right: 0)
+	}
+}
+
+extension WantedListViewController: UIViewControllerPreviewingDelegate {
+	@available(iOS 9.0, *)
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+		let point = collectionView.convert(location, from: collectionView.superview!)
+		guard let indexPath = collectionView.indexPathForItem(at: point) else {
+			return nil
+		}
+		
+		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
+		vc.viewModel = WantedDetailViewModelImpl(vc, model: viewModel.wantedListItems[indexPath.row])
+		return vc
+	}
+	
+	@available(iOS 9.0, *)
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+		self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
 	}
 }
