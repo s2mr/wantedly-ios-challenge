@@ -30,7 +30,8 @@ class WantedListViewController: UIViewController {
 		super.viewDidLoad()
 		setupUI()
 		bind()
-		viewModel.fetchWantedList(query: "", page: 1)
+		viewModel.page = 0
+		viewModel.fetchWantedList(query: "", shouldReset: true)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -51,7 +52,8 @@ class WantedListViewController: UIViewController {
 		incrementalText
 			.asObservable()
 			.subscribe(onNext: {
-				self.viewModel.fetchWantedList(query: $0, page: 1)
+				self.viewModel.page = 0
+				self.viewModel.fetchWantedList(query: $0, shouldReset: true)
 			},
 					   onError: nil, onCompleted: nil, onDisposed: nil)
 			.disposed(by: disposeBag)
@@ -76,6 +78,11 @@ extension WantedListViewController: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		if indexPath.row == viewModel.wantedListItems.count - 1 {
+			viewModel.page += 1
+			viewModel.fetchWantedList(query: searchBar.text ?? "", shouldReset: false)
+		}
+		
 		let c = collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath) as? WantedListCollectionViewCell //FIXME: use R.swift
 		guard let cell = c else {
 			return collectionView.dequeueReusableCell(withReuseIdentifier: "WantedListCollectionViewCell", for: indexPath)

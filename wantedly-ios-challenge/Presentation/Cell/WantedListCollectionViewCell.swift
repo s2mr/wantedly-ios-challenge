@@ -89,9 +89,9 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		case ..<2500:
 			starLabel.text = "\(star)"
 		case ..<5000:
-			starLabel.text = "\(star)\(star)"
+			starLabel.text = "Hot!\(star)\(star)"
 		default:
-			starLabel.text = "\(star)\(star)\(star)"
+			starLabel.text = "Hot!\(star)\(star)\(star)"
 		}
 		return starLabel
 	}
