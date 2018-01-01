@@ -40,6 +40,17 @@ class WantedListViewController: UIViewController {
 	
 	func setupUI() {
 		self.title = "募集一覧"
+		self.view.backgroundColor = UIColor(hexString: "#191D1FFF")
+		
+		searchBar.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 14)], for: UIControlState.normal)
+		searchBar.barTintColor = UIColor(hexString: "#49A2B8FF")
+		if let field: UITextField = searchBar.value(forKey: "_searchField") as? UITextField {
+			field.font = UIFont.systemFont(ofSize: 12)
+			field.backgroundColor = UIColor(hexString: "#FFFFFF33")
+			field.textColor = UIColor.white
+			field.attributedPlaceholder = NSAttributedString(string: "地域や特徴など条件を追加",
+															 attributes: [NSAttributedStringKey.foregroundColor: UIColor(hexString: "#FFFFFFAA")!])
+		}
 		
 		let nib = R.nib.wantedListCollectionViewCell()
 		collectionView.register(nib, forCellWithReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier)

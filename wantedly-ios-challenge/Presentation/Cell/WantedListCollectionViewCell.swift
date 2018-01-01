@@ -48,15 +48,15 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		roleLabel.font = UIFont.systemFont(ofSize: 15)
 		roleLabel.layer.cornerRadius = 3
 		roleLabel.layer.borderWidth = 1
-		roleLabel.layer.borderColor = UIColor.blue.cgColor
-		roleLabel.layer.backgroundColor = UIColor.blue.cgColor
+		roleLabel.layer.borderColor = UIColor.brown.cgColor
+		roleLabel.layer.backgroundColor = UIColor.brown.cgColor
 		roleLabel.textColor = UIColor.white
 	}
 	
 	func updateCell(viewCount: Int, imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
 		var description = description
 		
-		viewCountLabel.text = "\(viewCount) View"
+		viewCountLabel.text = " \(viewCount) View "
 		let _starLabel = starLabel(viewCount: viewCount)
 		viewCountLabel.addSubview(_starLabel)
 		
@@ -74,7 +74,7 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 			description.replaceSubrange(range, with: "")
 		}
 		descriptionLabel.text = description
-		roleLabel.text = role
+		roleLabel.text = " \(role) "
 		roleLabel.sizeToFit()
 	}
 	

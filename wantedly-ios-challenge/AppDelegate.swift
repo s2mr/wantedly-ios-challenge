@@ -19,6 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let app = EntryPoint()
 		let vc = app.main()
 		let nc = UINavigationController(rootViewController: vc)
+		nc.navigationBar.barTintColor = UIColor(hexString: "#49A2B8FF")
+		nc.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+		nc.navigationBar.isOpaque = true
+		nc.navigationBar.isTranslucent = false
+		nc.navigationBar.tintColor = UIColor.white
 		
 		window = UIWindow(frame: UIScreen.main.bounds)
 		window?.rootViewController = nc
