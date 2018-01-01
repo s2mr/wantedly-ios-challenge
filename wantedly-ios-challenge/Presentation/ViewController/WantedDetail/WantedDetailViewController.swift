@@ -16,7 +16,9 @@ class WantedDetailViewController: UIViewController {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var companyLogoView: UIImageView!
 	@IBOutlet weak var companyNameLabel: UILabel!
+	@IBOutlet weak var memberTitleLabel: UILabel!
 	@IBOutlet weak var peopleLabel: UILabel!
+	@IBOutlet weak var descriptionTitleLabel: UILabel!
 	@IBOutlet weak var descriptionLabel: UILabel!
 	
 	override func viewDidLoad() {
@@ -38,21 +40,25 @@ class WantedDetailViewController: UIViewController {
 		
 		titleLabel.lineBreakMode = .byWordWrapping
 		titleLabel.numberOfLines = 0
-		titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+		titleLabel.font = UIFont.boldSystemFont(ofSize: 25)
 		
-		descriptionLabel.font = UIFont.systemFont(ofSize: 13)
+		descriptionLabel.font = UIFont.systemFont(ofSize: 17)
 		descriptionLabel.lineBreakMode = .byTruncatingTail
-		descriptionLabel.numberOfLines = 2
+		descriptionLabel.numberOfLines = 0
 		
 		roleLabel.font = UIFont.systemFont(ofSize: 15)
-		roleLabel.layer.cornerRadius = 3
-		roleLabel.layer.borderWidth = 1
-		roleLabel.layer.borderColor = UIColor.blue.cgColor
-		roleLabel.layer.backgroundColor = UIColor.blue.cgColor
-		roleLabel.textColor = UIColor.white
+		
+		companyNameLabel.font = UIFont.systemFont(ofSize: 14)
+		companyNameLabel.textColor = UIColor.lightGray
+		
+		memberTitleLabel.font = UIFont.boldSystemFont(ofSize: 19)
 		
 		peopleLabel.lineBreakMode = .byWordWrapping
 		peopleLabel.numberOfLines = 0
+		peopleLabel.font = UIFont.systemFont(ofSize: 16)
+		
+		descriptionTitleLabel.font = UIFont.boldSystemFont(ofSize: 19)
+		descriptionLabel.font = UIFont.systemFont(ofSize: 16)
 	}
 	
 	func setupModel() {
@@ -82,14 +88,4 @@ class WantedDetailViewController: UIViewController {
 		roleLabel.text = viewModel.model.lookingFor
 		roleLabel.sizeToFit()
 	}
-	/*
-	// MARK: - Navigation
-	
-	// In a storyboard-based application, you will often want to do a little preparation before navigation
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-	// Get the new view controller using segue.destinationViewController.
-	// Pass the selected object to the new view controller.
-	}
-	*/
-	
 }
