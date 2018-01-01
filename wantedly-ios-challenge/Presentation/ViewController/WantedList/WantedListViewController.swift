@@ -30,7 +30,6 @@ class WantedListViewController: UIViewController {
 		super.viewDidLoad()
 		setupUI()
 		bind()
-		viewModel.page = 0
 		viewModel.fetchWantedList(query: "", shouldReset: true)
 	}
 
@@ -52,7 +51,6 @@ class WantedListViewController: UIViewController {
 		incrementalText
 			.asObservable()
 			.subscribe(onNext: {
-				self.viewModel.page = 0
 				self.viewModel.fetchWantedList(query: $0, shouldReset: true)
 			},
 					   onError: nil, onCompleted: nil, onDisposed: nil)
@@ -63,6 +61,10 @@ class WantedListViewController: UIViewController {
 extension WantedListViewController: UISearchBarDelegate {
 	func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 		return true
+	}
+	
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		searchBar.resignFirstResponder()
 	}
 }
 
@@ -79,7 +81,6 @@ extension WantedListViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		if indexPath.row == viewModel.wantedListItems.count - 1 {
-			viewModel.page += 1
 			viewModel.fetchWantedList(query: searchBar.text ?? "", shouldReset: false)
 		}
 		

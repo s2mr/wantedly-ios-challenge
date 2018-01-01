@@ -28,6 +28,11 @@ class WantedListViewModelImpl: WantedListViewModel {
 	}
 	
 	func fetchWantedList(query: String, shouldReset: Bool) {
+		if shouldReset {
+			page = 0
+		} else {
+			page += 1
+		}
 		repository.findAll(query: query, page: page)
 			.subscribe({ event in
 				switch event {
