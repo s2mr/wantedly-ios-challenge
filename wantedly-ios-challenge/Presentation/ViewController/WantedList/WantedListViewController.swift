@@ -63,22 +63,21 @@ class WantedListViewController: UIViewController {
 		
 		viewModel?
 			.wantedListItems
-			.drive()
-			.disposed(by: disposeBag)
-			
-//			.asObservable()
-//			.bind(to: self.collectionView.rx.items(cellIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier,
-//												   cellType: WantedListCollectionViewCell.self)) {(row, model, cell) in
-//				cell.updateCell(viewCount: model.pageView ?? 0,
-//								imageUrl: model.imageUrl ?? "",
-//								companyLogoUrl: model.companyLogoUrl ?? "",
-//								companyName: model.companyName ?? "",
-//								title: model.title ?? "",
-//								description: model.description ?? "",
-//								role: model.lookingFor ?? "")
+			.drive(collectionView.rx.items(cellIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier,
+										   cellType: WantedListCollectionViewCell.self)) { _, model, cell in
+											cell.updateCell(viewCount: model.pageView ?? 0,
+															imageUrl: model.imageUrl ?? "",
+															companyLogoUrl: model.companyLogoUrl ?? "",
+															companyName: model.companyName ?? "",
+															title: model.title ?? "",
+															description: model.description ?? "",
+															role: model.lookingFor ?? "")
 			}
-//			.disposed(by: disposeBag)
-	
+			.disposed(by: disposeBag)
+		
+		collectionView.rx.setDelegate(self)
+		.disposed(by: disposeBag)
+		
 //		incrementalText
 //			.asObservable()
 //			.subscribe(onNext: {
@@ -86,7 +85,7 @@ class WantedListViewController: UIViewController {
 //			},
 //					   onError: nil, onCompleted: nil, onDisposed: nil)
 //			.disposed(by: disposeBag)
-//	}
+	}
 }
 
 extension WantedListViewController: UISearchBarDelegate {
