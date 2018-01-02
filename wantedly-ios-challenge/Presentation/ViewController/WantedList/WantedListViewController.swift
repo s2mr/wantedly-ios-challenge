@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 
 class WantedListViewController: UIViewController {
-	var viewModel: WantedListViewModel!
+	var viewModel: WantedListViewModel?
 	let disposeBag = DisposeBag()
 	
 	@IBOutlet weak var searchBar: UISearchBar!
@@ -30,7 +30,7 @@ class WantedListViewController: UIViewController {
 		super.viewDidLoad()
 		setupUI()
 		bind()
-		viewModel.fetchWantedList(query: "", shouldReset: true)
+//		viewModel?.fetchWantedList(query: "", shouldReset: true)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -59,14 +59,34 @@ class WantedListViewController: UIViewController {
 	}
 	
 	func bind() {
-		incrementalText
-			.asObservable()
-			.subscribe(onNext: {
-				self.viewModel.fetchWantedList(query: $0, shouldReset: true)
-			},
-					   onError: nil, onCompleted: nil, onDisposed: nil)
+		viewModel = WantedListViewModelImpl()
+		
+		viewModel?
+			.wantedListItems
+			.drive()
 			.disposed(by: disposeBag)
-	}
+			
+//			.asObservable()
+//			.bind(to: self.collectionView.rx.items(cellIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier,
+//												   cellType: WantedListCollectionViewCell.self)) {(row, model, cell) in
+//				cell.updateCell(viewCount: model.pageView ?? 0,
+//								imageUrl: model.imageUrl ?? "",
+//								companyLogoUrl: model.companyLogoUrl ?? "",
+//								companyName: model.companyName ?? "",
+//								title: model.title ?? "",
+//								description: model.description ?? "",
+//								role: model.lookingFor ?? "")
+			}
+//			.disposed(by: disposeBag)
+	
+//		incrementalText
+//			.asObservable()
+//			.subscribe(onNext: {
+//				self.viewModel.fetchWantedList(query: $0, shouldReset: true)
+//			},
+//					   onError: nil, onCompleted: nil, onDisposed: nil)
+//			.disposed(by: disposeBag)
+//	}
 }
 
 extension WantedListViewController: UISearchBarDelegate {
@@ -79,9 +99,10 @@ extension WantedListViewController: UISearchBarDelegate {
 	}
 }
 
+/*
 extension WantedListViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return viewModel.wantedListItems.count
+		return viewModel?.wantedListItems.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -117,12 +138,14 @@ extension WantedListViewController: UICollectionViewDataSource {
 	}
 }
 
+*/
+
 extension WantedListViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		let model = viewModel.wantedListItems[indexPath.row]
-		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
-		vc.viewModel = WantedDetailViewModelImpl(vc, model: model)
-		self.navigationController?.pushViewController(vc, animated: true)
+//		let model = viewModel?.wantedListItems[indexPath.row]
+//		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
+//		vc.viewModel = WantedDetailViewModelImpl(vc, model: model)
+//		self.navigationController?.pushViewController(vc, animated: true)
 	}
 }
 
@@ -136,21 +159,21 @@ extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 	}
 }
 
-extension WantedListViewController: UIViewControllerPreviewingDelegate {
-	@available(iOS 9.0, *)
-	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-		let point = collectionView.convert(location, from: collectionView.superview!)
-		guard let indexPath = collectionView.indexPathForItem(at: point) else {
-			return nil
-		}
-		
-		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
-		vc.viewModel = WantedDetailViewModelImpl(vc, model: viewModel.wantedListItems[indexPath.row])
-		return vc
-	}
-	
-	@available(iOS 9.0, *)
-	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-		self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
-	}
-}
+//extension WantedListViewController: UIViewControllerPreviewingDelegate {
+//	@available(iOS 9.0, *)
+//	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+//		let point = collectionView.convert(location, from: collectionView.superview!)
+//		guard let indexPath = collectionView.indexPathForItem(at: point) else {
+//			return nil
+//		}
+//
+//		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
+//		vc.viewModel = WantedDetailViewModelImpl(vc, model: viewModel.wantedListItems[indexPath.row])
+//		return vc
+//	}
+//
+//	@available(iOS 9.0, *)
+//	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+//		self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
+//	}
+//}

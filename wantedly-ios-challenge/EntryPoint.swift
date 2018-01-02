@@ -12,7 +12,6 @@ import Rswift
 struct EntryPoint {
 	func main() -> UIViewController {
 		let vc = R.storyboard.wantedListViewController.instantiateInitialViewController()!
-		vc.viewModel = WantedListViewModelImpl(vc: vc)
 		return vc
 	}
 }

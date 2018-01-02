@@ -8,25 +8,35 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 protocol WantedListViewModel {
-	func fetchWantedList(query: String, shouldReset: Bool)
-	var wantedListItems: [WantedListModel] { get }
-	var page: Int { get set }
+//	func fetchWantedList(query: String, shouldReset: Bool)
+	var wantedListItems: Driver<[WantedListModel]> { get }
+//	var page: Int { get set }
 }
 
 class WantedListViewModelImpl: WantedListViewModel {
-	let vc: WantedListViewController
-	let repository = WantedListRepositoryImpl()
+//	let indicatorViewAnimating: Driver<Bool>
+//	let vc: WantedListViewController
+	
+//	let repository = WantedListRepositoryImpl()
+	let api = WanAPI()
+	
 	let disposeBag = DisposeBag()
 	
 	var page = 0
-	var wantedListItems: [WantedListModel] = []
+	var wantedListItems: Driver<[WantedListModel]>
 	
-	init(vc: WantedListViewController) {
-		self.vc = vc
+	init() {
+//		self.vc = vc
+//		indicatorViewAnimating =
+		self.wantedListItems = api.send(req: WanAPI.WantedListRequest(q: "", page: 1))
+			.map { $0.model ?? [] }
+			.asDriver(onErrorJustReturn: [])
 	}
 	
+	/*
 	func fetchWantedList(query: String, shouldReset: Bool) {
 		if shouldReset {
 			page = 0
@@ -39,13 +49,14 @@ class WantedListViewModelImpl: WantedListViewModel {
 				case .next(let v):
 					if let models = v.model {
 						if shouldReset {
-							self.wantedListItems = models
-							self.vc.collectionView.reloadData()
+//							self.wantedListItems = models
+//							self.vc.collectionView.reloadData()
 						} else {
-							self.wantedListItems += models
+//							self.wantedListItems += models
+							
 							//UIView.setAnimationsEnabled(false) // TODO: disable animation
 //							self.vc.collectionView.performBatchUpdates({
-								self.vc.collectionView.reloadData()
+//								self.vc.collectionView.reloadData()
 //							}, completion: { _ in
 //								UIView.setAnimationsEnabled(true)
 //							})
@@ -59,4 +70,5 @@ class WantedListViewModelImpl: WantedListViewModel {
 			})
 			.disposed(by: disposeBag)
 	}
+*/
 }
