@@ -56,10 +56,6 @@ class WantedListViewController: UIViewController {
 		collectionView.register(nib, forCellWithReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier)
 		
 		collectionView.keyboardDismissMode = .onDrag
-		
-		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
-			registerForPreviewing(with: self, sourceView: view)
-		}
 	}
 	
 	func bind() {
@@ -112,6 +108,10 @@ extension WantedListViewController: UICollectionViewDataSource {
 						description: item.description ?? "",
 						role: item.lookingFor ?? "")
 		cell.contentView.alpha = 0
+		
+		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
+			registerForPreviewing(with: self, sourceView: cell.contentView)
+		}
 		
 		return cell
 	}
