@@ -20,7 +20,6 @@ class WantedListViewModelImpl: WantedListViewModel {
 //	let indicatorViewAnimating: Driver<Bool>
 //	let vc: WantedListViewController
 	
-//	let repository = WantedListRepositoryImpl()
 	let api = WanAPI()
 	
 	let disposeBag = DisposeBag()
@@ -28,12 +27,19 @@ class WantedListViewModelImpl: WantedListViewModel {
 	var page = 0
 	var wantedListItems: Driver<[WantedListModel]>
 	
-	init() {
+	init(query: Driver<String>) {
 //		self.vc = vc
 //		indicatorViewAnimating =
-		self.wantedListItems = api.send(req: WanAPI.WantedListRequest(q: "", page: 1))
-			.map { $0.model ?? [] }
-			.asDriver(onErrorJustReturn: [])
+		
+		wantedListItems = .never()
+		
+		query.drive(onNext: { [weak self] str in
+			self?.wantedListItems = self?.api.send(req: WanAPI.WantedListRequest(q: str, page: 1))
+				.map { $0.model ?? [] }
+				.asDriver(onErrorJustReturn: []) ?? .never()
+		}, onCompleted: nil, onDisposed: nil)
+		.disposed(by: disposeBag)
+		
 	}
 	
 	/*

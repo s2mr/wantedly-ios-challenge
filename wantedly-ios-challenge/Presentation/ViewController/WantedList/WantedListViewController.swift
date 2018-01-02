@@ -30,12 +30,10 @@ class WantedListViewController: UIViewController {
 		super.viewDidLoad()
 		setupUI()
 		bind()
-//		viewModel?.fetchWantedList(query: "", shouldReset: true)
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	func setupUI() {
@@ -59,7 +57,7 @@ class WantedListViewController: UIViewController {
 	}
 	
 	func bind() {
-		viewModel = WantedListViewModelImpl()
+		viewModel = WantedListViewModelImpl(query: self.searchBar.rx.text.orEmpty.asDriver())
 		
 		viewModel?
 			.wantedListItems
@@ -141,10 +139,12 @@ extension WantedListViewController: UICollectionViewDataSource {
 
 extension WantedListViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//		let model = viewModel?.wantedListItems[indexPath.row]
-//		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
-//		vc.viewModel = WantedDetailViewModelImpl(vc, model: model)
-//		self.navigationController?.pushViewController(vc, animated: true)
+		viewModel?.wantedListItems.drive(onNext: {
+			let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
+			vc.viewModel = WantedDetailViewModelImpl(vc, model: $0[indexPath.row])
+			self.navigationController?.pushViewController(vc, animated: true)
+		}, onCompleted: nil, onDisposed: nil)
+		.disposed(by: disposeBag)
 	}
 }
 
