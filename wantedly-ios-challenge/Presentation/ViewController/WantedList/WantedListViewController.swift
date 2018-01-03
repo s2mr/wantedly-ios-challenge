@@ -17,6 +17,7 @@ final class WantedListViewController: UIViewController {
 	
 	@IBOutlet weak var searchBar: UISearchBar!
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var indicatorView: UIActivityIndicatorView!
 	
 	var viewModel: WantedListViewModelType!
 	let disposeBag = DisposeBag()
@@ -34,7 +35,8 @@ final class WantedListViewController: UIViewController {
 		super.viewDidLoad()
 		viewModel = WantedListViewModel(
 			searchingText: searchBar.rx.text.orEmpty.asDriver(),
-			selectedIndexPath: collectionView.rx.itemSelected.asDriver()
+			selectedIndexPath: collectionView.rx.itemSelected.asDriver(),
+			reachedToBottom: collectionView.rx.reachedBottom.asDriver()
 		)
 		
 		setupUI()
@@ -63,15 +65,15 @@ final class WantedListViewController: UIViewController {
 		collectionView.register(nib, forCellWithReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier)
 		
 		collectionView.keyboardDismissMode = .onDrag
+		indicatorView.activityIndicatorViewStyle = .whiteLarge
+		indicatorView.color = .red
+		self.view.addSubview(indicatorView)
 	}
 	
 	func bind() {
 		let cellIdentifier = R.reuseIdentifier.wantedListCollectionViewCell.identifier
 		viewModel.items
 			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { row, model, cell in
-				if row == self.viewModel.itemsVariable.value.count-1 {
-					self.viewModel.reachedToBottom()
-				}
 				cell.contentView.alpha = 0
 				cell.updateCell(listModel: model)
 				if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
@@ -86,6 +88,18 @@ final class WantedListViewController: UIViewController {
 			})
 			.disposed(by: disposeBag)
 		
+		viewModel
+			.isLoading
+			.asDriver()
+			.drive(self.indicatorView.rx.isAnimating)
+			.disposed(by: disposeBag)
+
+		viewModel
+			.isLoading
+			.asDriver()
+			.map { !$0 }
+			.drive(self.indicatorView.rx.isHidden)
+			.disposed(by: disposeBag)
 //		incrementalText
 //			.asObservable()
 //			.subscribe(onNext: {

@@ -14,13 +14,14 @@ protocol WantedListViewModelType {
 	var items: Driver<[WantedListModel]> { get }
 	var itemsVariable: Variable<[WantedListModel]> { get } //FIXME:
 	var pushWantedDetailViewController: Driver<WantedListModel> { get }
-	func reachedToBottom()
+	var isLoading: Variable<Bool> { get }
 }
 
 class WantedListViewModel: WantedListViewModelType {
-	let items: Driver<[WantedListModel]>
+	var items: Driver<[WantedListModel]> = .never()
 	let itemsVariable: Variable<[WantedListModel]> = Variable([])
-	let pushWantedDetailViewController: Driver<WantedListModel>
+	var isLoading: Variable<Bool>
+	var pushWantedDetailViewController: Driver<WantedListModel> = .never()
 	let disposeBag = DisposeBag()
 	
 	private let page: BehaviorRelay<Int>
@@ -30,20 +31,29 @@ class WantedListViewModel: WantedListViewModelType {
 		case append([WantedListModel])
 	}
 	
-	init(searchingText: Driver<String>, selectedIndexPath: Driver<IndexPath>) {
+	init(searchingText: Driver<String>, selectedIndexPath: Driver<IndexPath>, reachedToBottom: Driver<Void>) {
 		page = BehaviorRelay(value: 0)
 		
 		let repository = WantedListRepository()
+		self.isLoading = Variable(false)
 		
-		items =
-			
-			Driver
+		searchingText.asObservable()
+			.subscribe {
+				if case .next(_) = $0.event {
+					self.page.accept(0)
+				}
+			}
+			.disposed(by: disposeBag)
+		
+		items = Driver
 			.combineLatest(searchingText.asDriver(), page.asDriver())
-			.flatMap { (query, page) -> Driver<Event> in
+			.flatMap { [unowned self] (query, page) -> Driver<Event> in
 				// TODO: error handing
+				self.isLoading.value = true
 				return repository.findAll(query: query, page: page).asDriver(onErrorDriveWith: .empty())
 					.flatMap { Driver.from(optional: $0.model) }
 					.map { models -> Event in
+						self.isLoading.value = false
 						if page == 0 {
 							return Event.refresh(models)
 						} else {
@@ -55,7 +65,6 @@ class WantedListViewModel: WantedListViewModelType {
 				switch event {
 				case .refresh(let models):
 					return models
-
 				case .append(let models):
 					return previousModels + models
 				}
@@ -65,9 +74,23 @@ class WantedListViewModel: WantedListViewModelType {
 			.withLatestFrom(items) { $1[$0.row] }
 		
 		items.asObservable().bind(to: itemsVariable).disposed(by: disposeBag)
-	}
-	
-	func reachedToBottom() {
-		page.accept(page.value+1)
+		
+		page
+			.subscribe {
+				if case .next(let v) = $0.event {
+					print("[PAGE]\(v)")
+				}
+			}
+			.disposed(by: disposeBag)
+		
+		reachedToBottom
+			.asObservable()
+			.debounce(0.05, scheduler: SerialDispatchQueueScheduler(qos: .default))
+			.subscribe {
+				if case .next(_) = $0.event {
+					self.page.accept(self.page.value+1)
+				}
+			}
+			.disposed(by: disposeBag)
 	}
 }

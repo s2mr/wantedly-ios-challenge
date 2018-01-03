@@ -48,14 +48,19 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="dYb-cB-gei"/>
                                 </connections>
                             </searchBar>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1Pe-bK-U0l">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EZI-F5-5tp" secondAttribute="trailing" id="35y-gz-Lha"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="EZI-F5-5tp" secondAttribute="bottom" id="9Rh-Mw-z8w"/>
+                            <constraint firstItem="1Pe-bK-U0l" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="YuQ-PE-If5"/>
                             <constraint firstItem="EZI-F5-5tp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Z5K-yb-Qqm"/>
                             <constraint firstItem="CSs-ul-Ktm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="fsP-f1-ZlF"/>
                             <constraint firstItem="CSs-ul-Ktm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iIL-qo-pjg"/>
+                            <constraint firstItem="1Pe-bK-U0l" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nRc-Jq-RjJ"/>
                             <constraint firstItem="EZI-F5-5tp" firstAttribute="top" secondItem="CSs-ul-Ktm" secondAttribute="bottom" id="s0A-0V-vth"/>
                             <constraint firstItem="CSs-ul-Ktm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="v4W-fL-49u"/>
                         </constraints>
@@ -63,6 +68,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="EZI-F5-5tp" id="8XI-Xv-kvz"/>
+                        <outlet property="indicatorView" destination="1Pe-bK-U0l" id="8Bp-x7-Lbd"/>
                         <outlet property="searchBar" destination="CSs-ul-Ktm" id="TP5-L5-zL2"/>
                     </connections>
                 </viewController>

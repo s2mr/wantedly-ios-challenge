@@ -21,7 +21,7 @@ class WanAPI {
 		print(req.debugDescription)
 		return Single.create(subscribe: { observer in
 			req.responseJSON(completionHandler: { dataResponse in
-				print(dataResponse.debugDescription)
+//				print(dataResponse.debugDescription)
 				switch dataResponse.result {
 				case .success(let v):
 					guard let dic =  v as? UnboxableDictionary else {
