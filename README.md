@@ -3,6 +3,9 @@
 ## スクリーンショット
 ![](https://github.com/shimokp/wantedly-ios-challenge/blob/images/screenshot.jpeg)
 
+## 動作の様子
+![](https://github.com/shimokp/wantedly-ios-challenge/raw/images/usage.gif)
+
 ## 工夫した点
 - CollectionViewのCellを表示する際にアニメーションを利用しました
 - 人気の投稿にはHotと人気度合いを表すスターを表示しました
