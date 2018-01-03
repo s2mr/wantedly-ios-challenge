@@ -12,8 +12,9 @@ import RxCocoa
 
 protocol WantedListViewModelType {
 	var items: Driver<[WantedListModel]> { get }
-	var itemsVariable: Variable<[WantedListModel]> { get }
+	var itemsVariable: Variable<[WantedListModel]> { get } //FIXME:
 	var pushWantedDetailViewController: Driver<WantedListModel> { get }
+	func reachedToBottom()
 }
 
 class WantedListViewModel: WantedListViewModelType {
@@ -34,9 +35,10 @@ class WantedListViewModel: WantedListViewModelType {
 		
 		let repository = WantedListRepository()
 		
-		items = searchingText
-			.distinctUntilChanged()
-			.withLatestFrom(page.asDriver()) { ($0, $1) }
+		items =
+			
+			Driver
+			.combineLatest(searchingText.asDriver(), page.asDriver())
 			.flatMap { (query, page) -> Driver<Event> in
 				// TODO: error handing
 				return repository.findAll(query: query, page: page).asDriver(onErrorDriveWith: .empty())
@@ -53,7 +55,7 @@ class WantedListViewModel: WantedListViewModelType {
 				switch event {
 				case .refresh(let models):
 					return models
-					
+
 				case .append(let models):
 					return previousModels + models
 				}
@@ -63,5 +65,9 @@ class WantedListViewModel: WantedListViewModelType {
 			.withLatestFrom(items) { $1[$0.row] }
 		
 		items.asObservable().bind(to: itemsVariable).disposed(by: disposeBag)
+	}
+	
+	func reachedToBottom() {
+		page.accept(page.value+1)
 	}
 }

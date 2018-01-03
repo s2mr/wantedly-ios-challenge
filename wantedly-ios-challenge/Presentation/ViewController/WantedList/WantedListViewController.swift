@@ -68,7 +68,10 @@ final class WantedListViewController: UIViewController {
 	func bind() {
 		let cellIdentifier = R.reuseIdentifier.wantedListCollectionViewCell.identifier
 		viewModel.items
-			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { _, model, cell in
+			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { row, model, cell in
+				if row == self.viewModel.itemsVariable.value.count-1 {
+					self.viewModel.reachedToBottom()
+				}
 				cell.contentView.alpha = 0
 				cell.updateCell(listModel: model)
 				if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
