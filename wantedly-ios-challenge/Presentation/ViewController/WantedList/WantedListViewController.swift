@@ -22,15 +22,6 @@ final class WantedListViewController: UIViewController {
 	var viewModel: WantedListViewModelType!
 	let disposeBag = DisposeBag()
 	
-	private var incrementalText: Driver<String> {
-		return rx
-			.methodInvoked(#selector(self.searchBar(_:shouldChangeTextIn:replacementText:)))
-			.debounce(0.2, scheduler: MainScheduler.instance)
-			.flatMap { [weak self] _ -> Observable<String> in Observable.just(self?.searchBar.text ?? "") }
-			.distinctUntilChanged()
-			.asDriver(onErrorJustReturn: "")
-	}
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewModel = WantedListViewModel(
@@ -100,13 +91,6 @@ final class WantedListViewController: UIViewController {
 			.map { !$0 }
 			.drive(self.indicatorView.rx.isHidden)
 			.disposed(by: disposeBag)
-//		incrementalText
-//			.asObservable()
-//			.subscribe(onNext: {
-//				self.viewModel.fetchWantedList(query: $0, shouldReset: true)
-//			},
-//					   onError: nil, onCompleted: nil, onDisposed: nil)
-//			.disposed(by: disposeBag)
 	}
 	
 	private func pushWantedDetailViewController(with listModel: WantedListModel) {
@@ -124,10 +108,6 @@ extension WantedListViewController: UICollectionViewDelegate {
 }
 
 extension WantedListViewController: UISearchBarDelegate {
-	func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		return true
-	}
-	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		searchBar.resignFirstResponder()
 	}

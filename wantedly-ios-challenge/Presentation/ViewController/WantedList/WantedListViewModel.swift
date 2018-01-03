@@ -37,7 +37,9 @@ class WantedListViewModel: WantedListViewModelType {
 		let repository = WantedListRepository()
 		self.isLoading = Variable(false)
 		
-		searchingText.asObservable()
+		searchingText
+			.debounce(0.3)
+			.asObservable()
 			.subscribe {
 				if case .next(_) = $0.event {
 					self.page.accept(0)
@@ -47,6 +49,7 @@ class WantedListViewModel: WantedListViewModelType {
 		
 		items = Driver
 			.combineLatest(searchingText.asDriver(), page.asDriver())
+			.debounce(0.2)
 			.flatMap { [unowned self] (query, page) -> Driver<Event> in
 				// TODO: error handing
 				self.isLoading.value = true
@@ -84,8 +87,8 @@ class WantedListViewModel: WantedListViewModelType {
 			.disposed(by: disposeBag)
 		
 		reachedToBottom
+			.debounce(0.05)
 			.asObservable()
-			.debounce(0.05, scheduler: SerialDispatchQueueScheduler(qos: .default))
 			.subscribe {
 				if case .next(_) = $0.event {
 					self.page.accept(self.page.value+1)
