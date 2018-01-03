@@ -10,12 +10,16 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class WantedListViewController: UIViewController {
-	var viewModel: WantedListViewModel?
-	let disposeBag = DisposeBag()
+final class WantedListViewController: UIViewController {
+	static func make() -> WantedListViewController {
+		return R.storyboard.wantedListViewController.instantiateInitialViewController()!
+	}
 	
 	@IBOutlet weak var searchBar: UISearchBar!
 	@IBOutlet weak var collectionView: UICollectionView!
+	
+	var viewModel: WantedListViewModelType!
+	let disposeBag = DisposeBag()
 	
 	private var incrementalText: Driver<String> {
 		return rx
@@ -28,6 +32,11 @@ class WantedListViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		viewModel = WantedListViewModel(
+			searchingText: searchBar.rx.text.orEmpty.asDriver(),
+			selectedIndexPath: collectionView.rx.itemSelected.asDriver()
+		)
+		
 		setupUI()
 		bind()
 	}
@@ -57,24 +66,22 @@ class WantedListViewController: UIViewController {
 	}
 	
 	func bind() {
-		viewModel = WantedListViewModelImpl(query: self.searchBar.rx.text.orEmpty.asDriver())
-		
-		viewModel?
-			.wantedListItems
-			.drive(collectionView.rx.items(cellIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier,
-										   cellType: WantedListCollectionViewCell.self)) { _, model, cell in
-											cell.updateCell(viewCount: model.pageView ?? 0,
-															imageUrl: model.imageUrl ?? "",
-															companyLogoUrl: model.companyLogoUrl ?? "",
-															companyName: model.companyName ?? "",
-															title: model.title ?? "",
-															description: model.description ?? "",
-															role: model.lookingFor ?? "")
+		let cellIdentifier = R.reuseIdentifier.wantedListCollectionViewCell.identifier
+		viewModel.items
+			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { _, model, cell in
+				cell.contentView.alpha = 0
+				cell.updateCell(listModel: model)
+				if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
+					self.registerForPreviewing(with: self, sourceView: cell.contentView)
+				}
 			}
 			.disposed(by: disposeBag)
 		
-		collectionView.rx.setDelegate(self)
-		.disposed(by: disposeBag)
+		viewModel.pushWantedDetailViewController
+			.drive(onNext: { [weak self] listModel in
+				self?.pushWantedDetailViewController(with: listModel)
+			})
+			.disposed(by: disposeBag)
 		
 //		incrementalText
 //			.asObservable()
@@ -83,6 +90,19 @@ class WantedListViewController: UIViewController {
 //			},
 //					   onError: nil, onCompleted: nil, onDisposed: nil)
 //			.disposed(by: disposeBag)
+	}
+	
+	private func pushWantedDetailViewController(with listModel: WantedListModel) {
+		let viewController = WantedDetailViewController.make(listModel: listModel)
+		navigationController?.pushViewController(viewController, animated: true)
+	}
+}
+
+extension WantedListViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		UIView.animate(withDuration: 0.4, animations: {
+			cell.contentView.alpha = 1
+		})
 	}
 }
 
@@ -96,58 +116,6 @@ extension WantedListViewController: UISearchBarDelegate {
 	}
 }
 
-/*
-extension WantedListViewController: UICollectionViewDataSource {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return viewModel?.wantedListItems.count ?? 0
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		UIView.animate(withDuration: 0.4, animations: {
-			cell.contentView.alpha = 1
-		})
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		if indexPath.row == viewModel.wantedListItems.count - 1 {
-			viewModel.fetchWantedList(query: searchBar.text ?? "", shouldReset: false)
-		}
-		
-		let c = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier, for: indexPath) as? WantedListCollectionViewCell
-		guard let cell = c else {
-			return collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.wantedListCollectionViewCell.identifier, for: indexPath)
-		}
-		let item = viewModel.wantedListItems[indexPath.row]
-		cell.updateCell(viewCount: item.pageView ?? 0,
-						imageUrl: item.imageUrl ?? "",
-						companyLogoUrl: item.companyLogoUrl ?? "",
-						companyName: item.companyName ?? "",
-						title: item.title ?? "",
-						description: item.description ?? "",
-						role: item.lookingFor ?? "")
-		cell.contentView.alpha = 0
-		
-		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
-			registerForPreviewing(with: self, sourceView: cell.contentView)
-		}
-		
-		return cell
-	}
-}
-
-*/
-
-extension WantedListViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		viewModel?.wantedListItems.drive(onNext: {
-			let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
-			vc.viewModel = WantedDetailViewModelImpl(vc, model: $0[indexPath.row])
-			self.navigationController?.pushViewController(vc, animated: true)
-		}, onCompleted: nil, onDisposed: nil)
-		.disposed(by: disposeBag)
-	}
-}
-
 extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: self.view.bounds.width, height: 300)
@@ -158,21 +126,26 @@ extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 	}
 }
 
-//extension WantedListViewController: UIViewControllerPreviewingDelegate {
-//	@available(iOS 9.0, *)
-//	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-//		let point = collectionView.convert(location, from: collectionView.superview!)
-//		guard let indexPath = collectionView.indexPathForItem(at: point) else {
-//			return nil
-//		}
-//
-//		let vc = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
-//		vc.viewModel = WantedDetailViewModelImpl(vc, model: viewModel.wantedListItems[indexPath.row])
-//		return vc
-//	}
-//
-//	@available(iOS 9.0, *)
-//	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-//		self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
-//	}
-//}
+extension WantedListViewController: UIViewControllerPreviewingDelegate {
+	@available(iOS 9.0, *)
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+		let location = CGPoint(x:location.x, y:location.y)
+		let point = collectionView.convert(location, from: self.view)
+		guard let indexPath = collectionView.indexPathForItem(at: point) else {
+			return nil
+		}
+
+		guard let model = viewModel?.itemsVariable.value[indexPath.row] else {
+			return nil
+		}
+		
+		let vc = WantedDetailViewController.make(listModel: model)
+		
+		return vc
+	}
+
+	@available(iOS 9.0, *)
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+		self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
+	}
+}

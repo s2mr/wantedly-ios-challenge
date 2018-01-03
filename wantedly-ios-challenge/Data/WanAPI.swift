@@ -15,26 +15,26 @@ class WanAPI {
 	let baseURL = "https://www.wantedly.com/api/v1"
 	let parameterEncoding = URLEncoding.methodDependent
 	
-	func send<Req: WanAPIRequest>(req: Req) -> Observable<Req.Response> where Req.Response: Unboxable {
+	func send<Req: WanAPIRequest>(req: Req) -> Single<Req.Response> where Req.Response: Unboxable {
 		let url = baseURL.appending(req.path)
 		let req = Alamofire.request(url, method: req.method, parameters: req.parameters, encoding: parameterEncoding, headers: req.headers)
 		print(req.debugDescription)
-		return Observable.create({ observer in
+		return Single.create(subscribe: { observer in
 			req.responseJSON(completionHandler: { dataResponse in
 				print(dataResponse.debugDescription)
 				switch dataResponse.result {
 				case .success(let v):
 					guard let dic =  v as? UnboxableDictionary else {
-						observer.onError(NSError(domain: "Unbox Error", code: -1, userInfo: nil))
+						observer(.error(NSError(domain: "Unbox Error", code: -1, userInfo: nil)))
 						return
 					}
 					do {
-						observer.onNext(try unbox(dictionary: dic))
+						observer(.success(try unbox(dictionary: dic)))
 					} catch (let e) {
-						observer.onError(e)
+						observer(.error(e))
 					}
 				case .failure(let e):
-					observer.onError(e)
+					observer(.error(e))
 				}
 			})
 			return Disposables.create()

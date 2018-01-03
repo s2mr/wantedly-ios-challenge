@@ -10,71 +10,58 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol WantedListViewModel {
-//	func fetchWantedList(query: String, shouldReset: Bool)
-	var wantedListItems: Driver<[WantedListModel]> { get }
-//	var page: Int { get set }
+protocol WantedListViewModelType {
+	var items: Driver<[WantedListModel]> { get }
+	var itemsVariable: Variable<[WantedListModel]> { get }
+	var pushWantedDetailViewController: Driver<WantedListModel> { get }
 }
 
-class WantedListViewModelImpl: WantedListViewModel {
-//	let indicatorViewAnimating: Driver<Bool>
-//	let vc: WantedListViewController
-	
-	let api = WanAPI()
-	
+class WantedListViewModel: WantedListViewModelType {
+	let items: Driver<[WantedListModel]>
+	let itemsVariable: Variable<[WantedListModel]> = Variable([])
+	let pushWantedDetailViewController: Driver<WantedListModel>
 	let disposeBag = DisposeBag()
 	
-	var page = 0
-	var wantedListItems: Driver<[WantedListModel]>
+	private let page: BehaviorRelay<Int>
 	
-	init(query: Driver<String>) {
-//		self.vc = vc
-//		indicatorViewAnimating =
-		
-		wantedListItems = .never()
-		
-		query.drive(onNext: { [weak self] str in
-			self?.wantedListItems = self?.api.send(req: WanAPI.WantedListRequest(q: str, page: 1))
-				.map { $0.model ?? [] }
-				.asDriver(onErrorJustReturn: []) ?? .never()
-		}, onCompleted: nil, onDisposed: nil)
-		.disposed(by: disposeBag)
-		
+	enum Event {
+		case refresh([WantedListModel])
+		case append([WantedListModel])
 	}
 	
-	/*
-	func fetchWantedList(query: String, shouldReset: Bool) {
-		if shouldReset {
-			page = 0
-		} else {
-			page += 1
-		}
-		repository.findAll(query: query, page: page)
-			.subscribe({ event in
-				switch event {
-				case .next(let v):
-					if let models = v.model {
-						if shouldReset {
-//							self.wantedListItems = models
-//							self.vc.collectionView.reloadData()
+	init(searchingText: Driver<String>, selectedIndexPath: Driver<IndexPath>) {
+		page = BehaviorRelay(value: 0)
+		
+		let repository = WantedListRepository()
+		
+		items = searchingText
+			.distinctUntilChanged()
+			.withLatestFrom(page.asDriver()) { ($0, $1) }
+			.flatMap { (query, page) -> Driver<Event> in
+				// TODO: error handing
+				return repository.findAll(query: query, page: page).asDriver(onErrorDriveWith: .empty())
+					.flatMap { Driver.from(optional: $0.model) }
+					.map { models -> Event in
+						if page == 0 {
+							return Event.refresh(models)
 						} else {
-//							self.wantedListItems += models
-							
-							//UIView.setAnimationsEnabled(false) // TODO: disable animation
-//							self.vc.collectionView.performBatchUpdates({
-//								self.vc.collectionView.reloadData()
-//							}, completion: { _ in
-//								UIView.setAnimationsEnabled(true)
-//							})
+							return Event.append(models)
 						}
-					}
-				case .error(let e):
-					print(e)
-				case .completed:
-					print("completed")
 				}
-			})
-			.disposed(by: disposeBag)
+			}
+			.scan([]) { previousModels, event -> [WantedListModel] in
+				switch event {
+				case .refresh(let models):
+					return models
+					
+				case .append(let models):
+					return previousModels + models
+				}
+		}
+		
+		pushWantedDetailViewController = selectedIndexPath
+			.withLatestFrom(items) { $1[$0.row] }
+		
+		items.asObservable().bind(to: itemsVariable).disposed(by: disposeBag)
 	}
-*/
 }

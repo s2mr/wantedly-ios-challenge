@@ -21,6 +21,8 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
+		self.contentView.clipsToBounds = true
+		
 		let goldColor = UIColor(red: 183/255, green: 163/255, blue: 92/255, alpha: 1)
 		viewCountLabel.layer.borderColor = goldColor.cgColor
 		viewCountLabel.layer.backgroundColor = goldColor.cgColor
@@ -53,28 +55,28 @@ class WantedListCollectionViewCell: UICollectionViewCell {
 		roleLabel.textColor = UIColor.white
 	}
 	
-	func updateCell(viewCount: Int, imageUrl: String, companyLogoUrl: String, companyName: String, title: String, description: String, role: String) {
-		var description = description
+	func updateCell(listModel: WantedListModel) {
+		var description = listModel.description ?? ""
 		
-		viewCountLabel.text = " \(viewCount) View "
-		let _starLabel = starLabel(viewCount: viewCount)
+		viewCountLabel.text = " \(listModel.pageView ?? 0) View "
+		let _starLabel = starLabel(viewCount: listModel.pageView ?? 0)
 		viewCountLabel.addSubview(_starLabel)
 		
 		imageView.image = UIImage(named: "placeholder")
-		if let url = URL(string: imageUrl) {
+		if let url = listModel.imageUrl.flatMap({ URL(string: $0) }) {
 			imageView.af_setImage(withURL: url)
 		}
 		companyLogoView.image = UIImage(named: "placeholder")
-		if let url = URL(string: companyLogoUrl) {
+		if let url = listModel.companyLogoUrl.flatMap({ URL(string: $0) }) {
 			companyLogoView.af_setImage(withURL: url)
 		}
-		companyNameLabel.text = companyName
-		titleLabel.text = title
+		companyNameLabel.text = listModel.companyName
+		titleLabel.text = listModel.title
 		while let range = description.range(of: "\r\n") {
 			description.replaceSubrange(range, with: "")
 		}
 		descriptionLabel.text = description
-		roleLabel.text = " \(role) "
+		roleLabel.text = " \(listModel.lookingFor ?? "")"
 		roleLabel.sizeToFit()
 	}
 	

@@ -8,8 +8,14 @@
 
 import UIKit
 
-class WantedDetailViewController: UIViewController {
-	var viewModel: WantedDetailViewModel!
+final class WantedDetailViewController: UIViewController {
+	static func make(listModel: WantedListModel) -> WantedDetailViewController {
+		let viewController = R.storyboard.wantedDetailViewController.instantiateInitialViewController()!
+		viewController.viewModel = WantedDetailViewModel(listModel)
+		return viewController
+	}
+	
+	var viewModel: WantedDetailViewModelType!
 	
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var roleLabel: UILabel!
@@ -62,30 +68,30 @@ class WantedDetailViewController: UIViewController {
 	}
 	
 	func setupModel() {
-		imageView.image = UIImage(named: "placeholder")
-		if let url = URL(string: viewModel.model.imageUrl ?? "") {
-			imageView.af_setImage(withURL: url)
+		if let url = viewModel.listModel.imageUrl.flatMap({ URL(string: $0) }) {
+			imageView.af_setImage(withURL: url, placeholderImage: UIImage(named: "placeholder"))
 		}
-		companyLogoView.image = UIImage(named: "placeholder")
-		if let url = URL(string: viewModel.model.companyLogoUrl ?? "") {
-			companyLogoView.af_setImage(withURL: url)
+
+		if let url = viewModel.listModel.companyLogoUrl.flatMap({ URL(string: $0) }) {
+			companyLogoView.af_setImage(withURL: url, placeholderImage: UIImage(named: "placeholder"))
 		}
-		companyNameLabel.text = viewModel.model.companyName
-		
+
 		let peoplesStr = NSMutableAttributedString()
-		for p in viewModel.model.staffings ?? [] {
-			if let name = p.name {
+		viewModel.listModel.staffings?.forEach { staff in
+			if let name = staff.name {
 				peoplesStr.append(NSAttributedString(string: "\(name)\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17)]))
-				if let description = p.description {
-					peoplesStr.append(NSAttributedString(string: "\(description)\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)]))
-				}
+			}
+
+			if let description = staff.description {
+				peoplesStr.append(NSAttributedString(string: "\(description)\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)]))
 			}
 		}
 		peopleLabel.attributedText = peoplesStr
-		
-		titleLabel.text = viewModel.model.title
-		descriptionLabel.text = viewModel.model.description
-		roleLabel.text = viewModel.model.lookingFor
+
+		companyNameLabel.text = viewModel.listModel.companyName
+		titleLabel.text = viewModel.listModel.title
+		descriptionLabel.text = viewModel.listModel.description
+		roleLabel.text = viewModel.listModel.lookingFor
 		roleLabel.sizeToFit()
 	}
 }

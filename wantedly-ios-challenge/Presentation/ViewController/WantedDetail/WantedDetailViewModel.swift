@@ -8,16 +8,14 @@
 
 import Foundation
 
-protocol WantedDetailViewModel {
-	var model: WantedListModel! { get }
+protocol WantedDetailViewModelType {
+	var listModel: WantedListModel! { get }
 }
 
-class WantedDetailViewModelImpl: WantedDetailViewModel {
-	let vc: WantedDetailViewController!
-	var model: WantedListModel!
+class WantedDetailViewModel: WantedDetailViewModelType {
+	internal var listModel: WantedListModel!
 	
-	init(_ vc: WantedDetailViewController, model: WantedListModel) {
-		self.vc = vc
-		self.model = model
+	init(_ model: WantedListModel) {
+		self.listModel = model
 	}
 }
