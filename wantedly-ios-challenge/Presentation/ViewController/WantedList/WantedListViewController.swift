@@ -84,13 +84,31 @@ final class WantedListViewController: UIViewController {
 			.asDriver()
 			.drive(self.indicatorView.rx.isAnimating)
 			.disposed(by: disposeBag)
-
+		
 		viewModel
 			.isLoading
 			.asDriver()
 			.map { !$0 }
 			.drive(self.indicatorView.rx.isHidden)
 			.disposed(by: disposeBag)
+		
+		viewModel
+			.occuredError
+			.asObservable()
+			.subscribe {
+				switch $0.event {
+				case .next(let v):
+					let alertController = UIAlertController(title: "エラー", message: v?.localizedDescription ?? "", preferredStyle: .alert)
+					self.present(alertController, animated: true, completion: {
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+							self.dismiss(animated: true, completion: nil)
+						}
+					})
+				default:
+					break
+				}
+			}
+		.disposed(by: disposeBag)
 	}
 	
 	private func pushWantedDetailViewController(with listModel: WantedListModel) {

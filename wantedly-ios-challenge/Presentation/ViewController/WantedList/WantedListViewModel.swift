@@ -13,6 +13,7 @@ import RxCocoa
 protocol WantedListViewModelType {
 	var items: Driver<[WantedListModel]> { get }
 	var itemsVariable: Variable<[WantedListModel]> { get } //FIXME:
+	var occuredError: Variable<Error?> { get }
 	var pushWantedDetailViewController: Driver<WantedListModel> { get }
 	var isLoading: Variable<Bool> { get }
 }
@@ -21,6 +22,7 @@ final class WantedListViewModel: WantedListViewModelType {
 	var items: Driver<[WantedListModel]> = .never()
 	let itemsVariable: Variable<[WantedListModel]> = Variable([])
 	var isLoading: Variable<Bool>
+	var occuredError: Variable<Error?> = Variable(nil)
 	var pushWantedDetailViewController: Driver<WantedListModel> = .never()
 	private let page: BehaviorRelay<Int>
 	private let disposeBag = DisposeBag()
@@ -50,12 +52,17 @@ final class WantedListViewModel: WantedListViewModelType {
 			.combineLatest(searchingText.asDriver(), page.asDriver())
 			.debounce(0.2)
 			.flatMap { [unowned self] (query, page) -> Driver<Event> in
-				// TODO: error handing
 				self.isLoading.value = true
-				return repository.findAll(query: query, page: page).asDriver(onErrorDriveWith: .empty())
-					.flatMap { Driver.from(optional: $0.model) }
+				return repository.findAll(query: query, page: page)
+					.do { self.isLoading.value = false }
+					.asDriver(onErrorRecover: { error -> Driver<WantedListAPIResult> in
+						self.occuredError.value = error
+						return .empty()
+					})
+					.flatMap {
+						Driver.from(optional: $0.model)
+					}
 					.map { models -> Event in
-						self.isLoading.value = false
 						if page == 0 {
 							return Event.refresh(models)
 						} else {

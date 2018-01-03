@@ -46,6 +46,8 @@
 		6E15B9211FFA6516001E8328 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		6E3582F71FFBD8F300D757DC /* WantedListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListRepository.swift; sourceTree = "<group>"; };
 		6E4C3C461FFD146200B82546 /* Reactive+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+Extension.swift"; sourceTree = "<group>"; };
+		6E4C3C481FFD465C00B82546 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/WantedListViewController.strings; sourceTree = "<group>"; };
+		6E4C3C491FFD465C00B82546 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		6E605FD21FF549710008B542 /* wantedly-ios-challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "wantedly-ios-challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E605FD51FF549710008B542 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E605FD71FF549710008B542 /* WantedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedListViewController.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6E605FDA1FF549720008B542 /* Base */,
+				6E4C3C481FFD465C00B82546 /* ja */,
 			);
 			name = WantedListViewController.storyboard;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6E605FDF1FF549720008B542 /* Base */,
+				6E4C3C491FFD465C00B82546 /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -430,6 +434,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -487,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
