@@ -68,12 +68,14 @@ final class WantedDetailViewController: UIViewController {
 	}
 	
 	func setupModel() {
+		imageView.image = UIImage(named: "placeholder")
 		if let url = viewModel.listModel.imageUrl.flatMap({ URL(string: $0) }) {
-			imageView.af_setImage(withURL: url, placeholderImage: UIImage(named: "placeholder"))
+			imageView.af_setImage(withURL: url)
 		}
 
+		companyLogoView.image = UIImage(named: "placeholder")
 		if let url = viewModel.listModel.companyLogoUrl.flatMap({ URL(string: $0) }) {
-			companyLogoView.af_setImage(withURL: url, placeholderImage: UIImage(named: "placeholder"))
+			companyLogoView.af_setImage(withURL: url)
 		}
 
 		let peoplesStr = NSMutableAttributedString()

@@ -59,17 +59,21 @@ final class WantedListViewController: UIViewController {
 		indicatorView.activityIndicatorViewStyle = .whiteLarge
 		indicatorView.color = .red
 		self.view.addSubview(indicatorView)
+		
+		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
+			self.registerForPreviewing(with: self, sourceView: view)
+		}
 	}
 	
 	func bind() {
 		let cellIdentifier = R.reuseIdentifier.wantedListCollectionViewCell.identifier
 		viewModel.items
-			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { row, model, cell in
+			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { _, model, cell in
 				cell.contentView.alpha = 0
 				cell.updateCell(listModel: model)
-				if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available { // For 3DTouch
-					self.registerForPreviewing(with: self, sourceView: cell.contentView)
-				}
+				
+				cell.layoutSubviews()
+				cell.setNeedsDisplay()
 			}
 			.disposed(by: disposeBag)
 		
@@ -95,10 +99,13 @@ final class WantedListViewController: UIViewController {
 		viewModel
 			.occuredError
 			.asObservable()
+			.flatMap {
+				$0.flatMap { Observable.just($0) } ?? Observable.empty()
+			}
 			.subscribe {
 				switch $0.event {
 				case .next(let v):
-					let alertController = UIAlertController(title: "エラー", message: v?.localizedDescription ?? "", preferredStyle: .alert)
+					let alertController = UIAlertController(title: "エラー", message: v.localizedDescription, preferredStyle: .alert)
 					self.present(alertController, animated: true, completion: {
 						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 							self.dismiss(animated: true, completion: nil)
@@ -144,12 +151,16 @@ extension WantedListViewController: UICollectionViewDelegateFlowLayout {
 extension WantedListViewController: UIViewControllerPreviewingDelegate {
 	@available(iOS 9.0, *)
 	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-		let location = CGPoint(x:location.x, y:location.y)
-		let point = collectionView.convert(location, from: self.view)
+		let point = collectionView.convert(location, from: collectionView.superview)
 		guard let indexPath = collectionView.indexPathForItem(at: point) else {
 			return nil
 		}
-
+		
+		if let attr = collectionView.layoutAttributesForItem(at: indexPath) {
+			let rect = collectionView.convert(attr.frame, to: collectionView.superview)
+			previewingContext.sourceRect = rect
+		}
+		
 		guard let model = viewModel?.itemsVariable.value[indexPath.row] else {
 			return nil
 		}
