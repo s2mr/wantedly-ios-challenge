@@ -17,16 +17,15 @@ protocol WantedListViewModelType {
 	var isLoading: Variable<Bool> { get }
 }
 
-class WantedListViewModel: WantedListViewModelType {
+final class WantedListViewModel: WantedListViewModelType {
 	var items: Driver<[WantedListModel]> = .never()
 	let itemsVariable: Variable<[WantedListModel]> = Variable([])
 	var isLoading: Variable<Bool>
 	var pushWantedDetailViewController: Driver<WantedListModel> = .never()
-	let disposeBag = DisposeBag()
-	
 	private let page: BehaviorRelay<Int>
+	private let disposeBag = DisposeBag()
 	
-	enum Event {
+	private enum Event {
 		case refresh([WantedListModel])
 		case append([WantedListModel])
 	}
@@ -77,14 +76,6 @@ class WantedListViewModel: WantedListViewModelType {
 			.withLatestFrom(items) { $1[$0.row] }
 		
 		items.asObservable().bind(to: itemsVariable).disposed(by: disposeBag)
-		
-		page
-			.subscribe {
-				if case .next(let v) = $0.event {
-					print("[PAGE]\(v)")
-				}
-			}
-			.disposed(by: disposeBag)
 		
 		reachedToBottom
 			.debounce(0.05)

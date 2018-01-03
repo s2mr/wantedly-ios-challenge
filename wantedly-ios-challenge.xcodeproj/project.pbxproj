@@ -92,8 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				6E605FD71FF549710008B542 /* WantedListViewController.swift */,
-				6E605FD91FF549720008B542 /* WantedListViewController.storyboard */,
 				6E15B8DE1FF54EE6001E8328 /* WantedListViewModel.swift */,
+				6E605FD91FF549720008B542 /* WantedListViewController.storyboard */,
 			);
 			path = WantedList;
 			sourceTree = "<group>";

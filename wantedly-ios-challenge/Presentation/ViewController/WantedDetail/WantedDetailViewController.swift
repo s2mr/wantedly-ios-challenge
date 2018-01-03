@@ -15,7 +15,7 @@ final class WantedDetailViewController: UIViewController {
 		return viewController
 	}
 	
-	var viewModel: WantedDetailViewModelType!
+	private var viewModel: WantedDetailViewModelType!
 	
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var roleLabel: UILabel!

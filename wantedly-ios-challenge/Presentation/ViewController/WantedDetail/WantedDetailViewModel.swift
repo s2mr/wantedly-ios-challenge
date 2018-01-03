@@ -12,7 +12,7 @@ protocol WantedDetailViewModelType {
 	var listModel: WantedListModel! { get }
 }
 
-class WantedDetailViewModel: WantedDetailViewModelType {
+final class WantedDetailViewModel: WantedDetailViewModelType {
 	internal var listModel: WantedListModel!
 	
 	init(_ model: WantedListModel) {

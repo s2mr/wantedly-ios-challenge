@@ -10,7 +10,7 @@ import UIKit
 import AlamofireImage
 import FontAwesome_swift
 
-class WantedListCollectionViewCell: UICollectionViewCell {
+final class WantedListCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var viewCountLabel: UILabel!
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var companyLogoView: UIImageView!

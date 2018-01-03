@@ -19,8 +19,8 @@ final class WantedListViewController: UIViewController {
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var indicatorView: UIActivityIndicatorView!
 	
-	var viewModel: WantedListViewModelType!
-	let disposeBag = DisposeBag()
+	private var viewModel: WantedListViewModelType!
+	private let disposeBag = DisposeBag()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
