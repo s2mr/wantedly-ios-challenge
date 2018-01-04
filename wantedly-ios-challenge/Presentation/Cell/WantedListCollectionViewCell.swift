@@ -45,8 +45,6 @@ final class WantedListCollectionViewCell: UICollectionViewCell {
 		descriptionLabel.lineBreakMode = .byTruncatingTail
 		descriptionLabel.numberOfLines = 2
 		
-//		let frame = roleLabel.frame // TODO: extend frame width
-//		roleLabel.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width+15, height: frame.height)
 		roleLabel.font = UIFont.systemFont(ofSize: 15)
 		roleLabel.layer.cornerRadius = 3
 		roleLabel.layer.borderWidth = 1

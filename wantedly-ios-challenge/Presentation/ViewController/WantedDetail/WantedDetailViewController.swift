@@ -72,24 +72,24 @@ final class WantedDetailViewController: UIViewController {
 		if let url = viewModel.listModel.imageUrl.flatMap({ URL(string: $0) }) {
 			imageView.af_setImage(withURL: url)
 		}
-
+		
 		companyLogoView.image = UIImage(named: "placeholder")
 		if let url = viewModel.listModel.companyLogoUrl.flatMap({ URL(string: $0) }) {
 			companyLogoView.af_setImage(withURL: url)
 		}
-
+		
 		let peoplesStr = NSMutableAttributedString()
 		viewModel.listModel.staffings?.forEach { staff in
 			if let name = staff.name {
 				peoplesStr.append(NSAttributedString(string: "\(name)\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17)]))
 			}
-
+			
 			if let description = staff.description {
 				peoplesStr.append(NSAttributedString(string: "\(description)\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)]))
 			}
 		}
 		peopleLabel.attributedText = peoplesStr
-
+		
 		companyNameLabel.text = viewModel.listModel.companyName
 		titleLabel.text = viewModel.listModel.title
 		descriptionLabel.text = viewModel.listModel.description

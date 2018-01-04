@@ -33,7 +33,7 @@ final class WantedListViewController: UIViewController {
 		setupUI()
 		bind()
 	}
-
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
@@ -68,12 +68,10 @@ final class WantedListViewController: UIViewController {
 	func bind() {
 		let cellIdentifier = R.reuseIdentifier.wantedListCollectionViewCell.identifier
 		viewModel.items
+			.asDriver()
 			.drive(collectionView.rx.items(cellIdentifier: cellIdentifier, cellType: WantedListCollectionViewCell.self)) { _, model, cell in
 				cell.contentView.alpha = 0
 				cell.updateCell(listModel: model)
-				
-				cell.layoutSubviews()
-				cell.setNeedsDisplay()
 			}
 			.disposed(by: disposeBag)
 		
@@ -107,7 +105,7 @@ final class WantedListViewController: UIViewController {
 				case .next(let v):
 					let alertController = UIAlertController(title: "エラー", message: v.localizedDescription, preferredStyle: .alert)
 					self.present(alertController, animated: true, completion: {
-						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+						DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 							self.dismiss(animated: true, completion: nil)
 						}
 					})
@@ -115,7 +113,7 @@ final class WantedListViewController: UIViewController {
 					break
 				}
 			}
-		.disposed(by: disposeBag)
+			.disposed(by: disposeBag)
 	}
 	
 	private func pushWantedDetailViewController(with listModel: WantedListModel) {
@@ -155,21 +153,16 @@ extension WantedListViewController: UIViewControllerPreviewingDelegate {
 		guard let indexPath = collectionView.indexPathForItem(at: point) else {
 			return nil
 		}
-		
 		if let attr = collectionView.layoutAttributesForItem(at: indexPath) {
 			let rect = collectionView.convert(attr.frame, to: collectionView.superview)
 			previewingContext.sourceRect = rect
 		}
-		
-		guard let model = viewModel?.itemsVariable.value[indexPath.row] else {
+		guard let model = viewModel?.items.value[indexPath.row] else {
 			return nil
 		}
-		
-		let vc = WantedDetailViewController.make(listModel: model)
-		
-		return vc
+		return WantedDetailViewController.make(listModel: model)
 	}
-
+	
 	@available(iOS 9.0, *)
 	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
 		self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
