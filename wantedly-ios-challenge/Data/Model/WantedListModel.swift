@@ -57,7 +57,6 @@ struct WantedListModel: Unboxable {
 		companyLogoUrl = unboxer.unbox(keyPath: "company.avatar.s_50")
 		staffings = unboxer.unbox(key: "staffings")
 	}
-	init() {}
 }
 
 struct MetaDataModel: Unboxable {
