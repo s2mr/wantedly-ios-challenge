@@ -17,11 +17,11 @@ protocol WantedListViewModelType {
 	var isLoading: Variable<Bool> { get }
 }
 
-final class WantedListViewModel: WantedListViewModelType {
+final class WantedListViewModel : WantedListViewModelType {
 	let items: Variable<[WantedListModel]>
-	var occuredError: Variable<Error?>
-	var pushWantedDetailViewController: Driver<WantedListModel>
-	var isLoading: Variable<Bool>
+	let occuredError: Variable<Error?>
+	let pushWantedDetailViewController: Driver<WantedListModel>
+	let isLoading: Variable<Bool>
 	private let page: BehaviorRelay<Int>
 	private let disposeBag = DisposeBag()
 	
@@ -37,7 +37,9 @@ final class WantedListViewModel: WantedListViewModelType {
 		self.items = Variable([])
 		self.isLoading = Variable(false)
 		self.occuredError = Variable(nil)
-		self.pushWantedDetailViewController = .never()
+		
+		self.pushWantedDetailViewController = selectedIndexPath
+			.withLatestFrom(items.asDriver()) { $1[$0.row] }
 		
 		searchingText
 			.debounce(0.3)
@@ -80,9 +82,6 @@ final class WantedListViewModel: WantedListViewModelType {
 			}
 			.bind(to: items)
 			.disposed(by: disposeBag)
-		
-		self.pushWantedDetailViewController = selectedIndexPath
-			.withLatestFrom(items.asDriver()) { $1[$0.row] }
 		
 		reachedToBottom
 			.debounce(0.05)
