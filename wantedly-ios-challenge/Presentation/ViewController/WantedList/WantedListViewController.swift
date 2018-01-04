@@ -124,9 +124,9 @@ final class WantedListViewController: UIViewController {
 
 extension WantedListViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		UIView.animate(withDuration: 0.4, animations: {
+		UIView.animate(withDuration: 0.4, delay: 0, options: .allowUserInteraction, animations: { () -> Void in
 			cell.contentView.alpha = 1
-		})
+		}, completion: nil)
 	}
 }
 
