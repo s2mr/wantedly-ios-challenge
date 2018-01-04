@@ -11,19 +11,17 @@ import RxSwift
 import RxCocoa
 
 protocol WantedListViewModelType {
-	var items: Driver<[WantedListModel]> { get }
-	var itemsVariable: Variable<[WantedListModel]> { get } //FIXME:
+	var items: Variable<[WantedListModel]> { get }
 	var occuredError: Variable<Error?> { get }
 	var pushWantedDetailViewController: Driver<WantedListModel> { get }
 	var isLoading: Variable<Bool> { get }
 }
 
 final class WantedListViewModel: WantedListViewModelType {
-	var items: Driver<[WantedListModel]> = .never()
-	let itemsVariable: Variable<[WantedListModel]> = Variable([])
+	let items: Variable<[WantedListModel]>
+	var occuredError: Variable<Error?>
+	var pushWantedDetailViewController: Driver<WantedListModel>
 	var isLoading: Variable<Bool>
-	var occuredError: Variable<Error?> = Variable(nil)
-	var pushWantedDetailViewController: Driver<WantedListModel> = .never()
 	private let page: BehaviorRelay<Int>
 	private let disposeBag = DisposeBag()
 	
@@ -33,10 +31,13 @@ final class WantedListViewModel: WantedListViewModelType {
 	}
 	
 	init(searchingText: Driver<String>, selectedIndexPath: Driver<IndexPath>, reachedToBottom: Driver<Void>) {
-		page = BehaviorRelay(value: 0)
-		
 		let repository = WantedListRepository()
+		
+		self.page = BehaviorRelay(value: 0)
+		self.items = Variable([])
 		self.isLoading = Variable(false)
+		self.occuredError = Variable(nil)
+		self.pushWantedDetailViewController = .never()
 		
 		searchingText
 			.debounce(0.3)
@@ -48,9 +49,8 @@ final class WantedListViewModel: WantedListViewModelType {
 			}
 			.disposed(by: disposeBag)
 		
-		items = Driver
-			.combineLatest(searchingText.asDriver(), page.asDriver())
-			.debounce(0.2)
+		Observable.combineLatest(searchingText.asObservable(), page.asObservable())
+			.debounce(0.2, scheduler: SerialDispatchQueueScheduler(qos: .default))
 			.flatMap { [unowned self] (query, page) -> Driver<Event> in
 				self.isLoading.value = true
 				return repository.findAll(query: query, page: page)
@@ -77,12 +77,12 @@ final class WantedListViewModel: WantedListViewModelType {
 				case .append(let models):
 					return previousModels + models
 				}
-		}
+			}
+			.bind(to: items)
+			.disposed(by: disposeBag)
 		
-		pushWantedDetailViewController = selectedIndexPath
-			.withLatestFrom(items) { $1[$0.row] }
-		
-		items.asObservable().bind(to: itemsVariable).disposed(by: disposeBag)
+		self.pushWantedDetailViewController = selectedIndexPath
+			.withLatestFrom(items.asDriver()) { $1[$0.row] }
 		
 		reachedToBottom
 			.debounce(0.05)
